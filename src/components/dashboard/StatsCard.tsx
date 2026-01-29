@@ -90,6 +90,7 @@ interface SimpleCardProps {
   children: ReactNode;
   className?: string;
   headerAction?: ReactNode;
+  action?: ReactNode;
 }
 
 export function SimpleCard({
@@ -98,13 +99,15 @@ export function SimpleCard({
   children,
   className,
   headerAction,
+  action,
 }: SimpleCardProps) {
+  const actionElement = action || headerAction;
   return (
     <div className={cn(
       "rounded-xl border border-border bg-card shadow-card",
       className
     )}>
-      {(title || headerAction) && (
+      {(title || actionElement) && (
         <div className="flex items-center justify-between border-b border-border px-6 py-4">
           <div>
             {title && <h3 className="font-semibold">{title}</h3>}
@@ -112,7 +115,7 @@ export function SimpleCard({
               <p className="text-sm text-muted-foreground">{description}</p>
             )}
           </div>
-          {headerAction}
+          {actionElement}
         </div>
       )}
       <div className="p-6">{children}</div>

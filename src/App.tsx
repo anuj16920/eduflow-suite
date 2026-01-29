@@ -20,13 +20,30 @@ import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import TeachersManagement from "./pages/admin/TeachersManagement";
 import StudentsManagement from "./pages/admin/StudentsManagement";
+import ParentsManagement from "./pages/admin/ParentsManagement";
+import AcademicsManagement from "./pages/admin/AcademicsManagement";
 import FeesManagement from "./pages/admin/FeesManagement";
+import CommunicationCenter from "./pages/admin/CommunicationCenter";
+import ReportsAnalytics from "./pages/admin/ReportsAnalytics";
+import SettingsPage from "./pages/admin/SettingsPage";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
+import TeacherProfile from "./pages/teacher/TeacherProfile";
+import TeacherClasses from "./pages/teacher/TeacherClasses";
+import TeacherAttendance from "./pages/teacher/TeacherAttendance";
+import TeacherHomework from "./pages/teacher/TeacherHomework";
+import TeacherMarks from "./pages/teacher/TeacherMarks";
+import TeacherMessages from "./pages/teacher/TeacherMessages";
 
 // Parent Pages
 import ParentDashboard from "./pages/parent/ParentDashboard";
+import ParentStudentProfile from "./pages/parent/ParentStudentProfile";
+import ParentAttendance from "./pages/parent/ParentAttendance";
+import ParentHomework from "./pages/parent/ParentHomework";
+import ParentResults from "./pages/parent/ParentResults";
+import ParentFees from "./pages/parent/ParentFees";
+import ParentMessages from "./pages/parent/ParentMessages";
 
 import NotFound from "./pages/NotFound";
 
@@ -58,17 +75,34 @@ const App = () => (
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/teachers" element={<TeachersManagement />} />
               <Route path="/admin/students" element={<StudentsManagement />} />
+              <Route path="/admin/parents" element={<ParentsManagement />} />
+              <Route path="/admin/academics" element={<AcademicsManagement />} />
               <Route path="/admin/fees" element={<FeesManagement />} />
+              <Route path="/admin/communication" element={<CommunicationCenter />} />
+              <Route path="/admin/reports" element={<ReportsAnalytics />} />
+              <Route path="/admin/settings" element={<SettingsPage />} />
             </Route>
 
             {/* Teacher Routes */}
             <Route element={<DashboardLayout role="teacher" user={teacherUser} />}>
               <Route path="/teacher" element={<TeacherDashboard />} />
+              <Route path="/teacher/profile" element={<TeacherProfile />} />
+              <Route path="/teacher/classes" element={<TeacherClasses />} />
+              <Route path="/teacher/attendance" element={<TeacherAttendance />} />
+              <Route path="/teacher/homework" element={<TeacherHomework />} />
+              <Route path="/teacher/marks" element={<TeacherMarks />} />
+              <Route path="/teacher/messages" element={<TeacherMessages />} />
             </Route>
 
             {/* Parent Routes */}
             <Route element={<DashboardLayout role="parent" user={parentUser} />}>
               <Route path="/parent" element={<ParentDashboard />} />
+              <Route path="/parent/student" element={<ParentStudentProfile />} />
+              <Route path="/parent/attendance" element={<ParentAttendance />} />
+              <Route path="/parent/homework" element={<ParentHomework />} />
+              <Route path="/parent/results" element={<ParentResults />} />
+              <Route path="/parent/fees" element={<ParentFees />} />
+              <Route path="/parent/messages" element={<ParentMessages />} />
             </Route>
 
             <Route path="*" element={<NotFound />} />

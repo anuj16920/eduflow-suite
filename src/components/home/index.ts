@@ -1,0 +1,9 @@
+export { HeroSection } from "./HeroSection";
+export { StatsSection } from "./StatsSection";
+export { FeaturesSection } from "./FeaturesSection";
+export { BenefitsSection } from "./BenefitsSection";
+export { TestimonialsSection } from "./TestimonialsSection";
+export { CTASection } from "./CTASection";
+export { AnimatedCounter } from "./AnimatedCounter";
+export { VideoModal } from "./VideoModal";
+export { FloatingElements } from "./FloatingElements";

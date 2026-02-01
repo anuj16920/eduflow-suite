@@ -75,7 +75,7 @@ export function DashboardSidebar({ collapsed, onToggle, role }: DashboardSidebar
       <div className="flex h-16 items-center justify-between border-b border-sidebar-border px-4">
         {!collapsed && (
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-primary">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-primary shadow-md shadow-primary/30">
               <GraduationCap className="h-4 w-4 text-primary-foreground" />
             </div>
             <span className="font-bold text-sidebar-foreground">EduCore</span>

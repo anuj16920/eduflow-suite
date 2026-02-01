@@ -57,9 +57,9 @@ function TestimonialsSectionComponent() {
 
   return (
     <section className="relative py-24 md:py-32 overflow-hidden bg-gradient-to-b from-muted/30 via-muted/50 to-muted/30">
-      {/* Decorative elements */}
+      {/* Decorative elements - Fire Orange */}
       <div className="absolute top-20 right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 left-20 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 left-20 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl" />
 
       <div className="container relative">
         {/* Header */}
@@ -91,11 +91,11 @@ function TestimonialsSectionComponent() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -50 }}
                 transition={{ duration: 0.3 }}
-                className="relative p-8 md:p-12 rounded-3xl bg-card border border-border/50 shadow-xl"
+                className="relative p-8 md:p-12 rounded-3xl bg-card border border-primary/10 shadow-xl"
               >
                 {/* Quote icon */}
                 <div className="absolute -top-6 left-8 md:left-12">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-full gradient-primary shadow-lg">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-full gradient-primary shadow-lg shadow-primary/30">
                     <Quote className="w-5 h-5 text-primary-foreground" />
                   </div>
                 </div>
@@ -103,7 +103,7 @@ function TestimonialsSectionComponent() {
                 {/* Rating */}
                 <div className="flex gap-1 mb-6 pt-4">
                   {[...Array(currentTestimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
+                    <Star key={i} className="w-5 h-5 fill-primary text-primary" />
                   ))}
                 </div>
 
@@ -114,7 +114,7 @@ function TestimonialsSectionComponent() {
 
                 {/* Author */}
                 <div className="flex items-center gap-4">
-                  <div className="flex items-center justify-center w-14 h-14 rounded-full gradient-primary text-primary-foreground text-lg font-bold shadow-lg">
+                  <div className="flex items-center justify-center w-14 h-14 rounded-full gradient-primary text-primary-foreground text-lg font-bold shadow-lg shadow-primary/30">
                     {currentTestimonial.avatar}
                   </div>
                   <div>
@@ -147,7 +147,7 @@ function TestimonialsSectionComponent() {
                   variant="outline"
                   size="icon"
                   onClick={prevTestimonial}
-                  className="rounded-full w-12 h-12 border-2 hover:bg-primary hover:text-primary-foreground transition-all"
+                  className="rounded-full w-12 h-12 border-2 border-primary/30 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </Button>
@@ -155,7 +155,7 @@ function TestimonialsSectionComponent() {
                   variant="outline"
                   size="icon"
                   onClick={nextTestimonial}
-                  className="rounded-full w-12 h-12 border-2 hover:bg-primary hover:text-primary-foreground transition-all"
+                  className="rounded-full w-12 h-12 border-2 border-primary/30 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all"
                 >
                   <ChevronRight className="w-5 h-5" />
                 </Button>

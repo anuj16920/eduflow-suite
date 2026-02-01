@@ -34,7 +34,7 @@ export function PublicFooter() {
           {/* Brand */}
           <div className="col-span-2 md:col-span-2">
             <Link to="/" className="flex items-center gap-2.5 mb-4">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg gradient-primary">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg gradient-primary shadow-lg shadow-primary/30">
                 <GraduationCap className="h-5 w-5 text-primary-foreground" />
               </div>
               <span className="text-xl font-bold tracking-tight">EduCore</span>
@@ -47,7 +47,7 @@ export function PublicFooter() {
                 <a
                   key={social.label}
                   href={social.href}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground transition-colors"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted hover:bg-primary/10 text-muted-foreground hover:text-primary transition-colors"
                   aria-label={social.label}
                 >
                   <social.icon className="h-4 w-4" />

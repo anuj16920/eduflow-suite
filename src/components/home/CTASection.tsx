@@ -17,7 +17,7 @@ function CTASectionComponent() {
       {/* Animated background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
       
-      {/* Decorative orbs */}
+      {/* Decorative orbs - Fire Orange */}
       <motion.div
         animate={{
           scale: [1, 1.2, 1],
@@ -40,7 +40,7 @@ function CTASectionComponent() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-accent/10 rounded-full blur-3xl"
+        className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl"
       />
 
       <div className="container relative">
@@ -52,10 +52,10 @@ function CTASectionComponent() {
           className="max-w-5xl mx-auto"
         >
           {/* Card */}
-          <div className="relative p-8 md:p-12 lg:p-16 rounded-3xl md:rounded-[2.5rem] bg-card border border-border/50 shadow-2xl overflow-hidden">
+          <div className="relative p-8 md:p-12 lg:p-16 rounded-3xl md:rounded-[2.5rem] bg-card border border-primary/10 shadow-2xl overflow-hidden">
             {/* Inner decorations */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-primary/10 to-transparent rounded-full -translate-y-1/2 translate-x-1/2" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-accent/10 to-transparent rounded-full translate-y-1/2 -translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-amber-500/10 to-transparent rounded-full translate-y-1/2 -translate-x-1/2" />
 
             <div className="relative text-center">
               {/* Badge */}
@@ -72,7 +72,7 @@ function CTASectionComponent() {
               {/* Headline */}
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                 Ready to Transform
-                <span className="block bg-gradient-to-r from-primary to-violet-500 bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-primary via-amber-500 to-orange-500 bg-clip-text text-transparent">
                   Your School?
                 </span>
               </h2>
@@ -88,7 +88,7 @@ function CTASectionComponent() {
                 <Link to="/contact">
                   <Button
                     size="lg"
-                    className="group gradient-primary border-0 text-primary-foreground hover:opacity-90 shadow-xl shadow-primary/25 px-10 py-7 text-lg h-auto rounded-2xl transition-all duration-300 hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-1"
+                    className="group gradient-primary border-0 text-primary-foreground hover:opacity-90 shadow-xl shadow-primary/30 px-10 py-7 text-lg h-auto rounded-2xl transition-all duration-300 hover:shadow-2xl hover:shadow-primary/40 hover:-translate-y-1"
                   >
                     Get Started Free
                     <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -98,7 +98,7 @@ function CTASectionComponent() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="border-2 px-10 py-7 text-lg h-auto rounded-2xl hover:bg-primary/5 transition-all duration-300 hover:-translate-y-1"
+                    className="border-2 border-primary/30 px-10 py-7 text-lg h-auto rounded-2xl hover:bg-primary/5 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1"
                   >
                     View Pricing
                   </Button>
@@ -116,7 +116,7 @@ function CTASectionComponent() {
                     transition={{ delay: 0.1 * index }}
                     className="flex items-center gap-2 text-sm text-muted-foreground"
                   >
-                    <CheckCircle className="w-4 h-4 text-success" />
+                    <CheckCircle className="w-4 h-4 text-primary" />
                     <span>{benefit}</span>
                   </motion.div>
                 ))}

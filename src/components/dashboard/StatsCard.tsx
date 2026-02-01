@@ -16,10 +16,10 @@ interface StatsCardProps {
 }
 
 const variantStyles = {
-  default: "bg-card",
-  primary: "gradient-primary text-primary-foreground",
+  default: "bg-card border-primary/10",
+  primary: "gradient-primary text-primary-foreground shadow-lg shadow-primary/20",
   success: "gradient-success text-success-foreground",
-  warning: "gradient-warning text-warning-foreground",
+  warning: "bg-gradient-to-br from-amber-500 to-orange-500 text-white",
   destructive: "bg-destructive text-destructive-foreground",
 };
 
@@ -27,7 +27,7 @@ const iconVariantStyles = {
   default: "bg-primary/10 text-primary",
   primary: "bg-primary-foreground/20 text-primary-foreground",
   success: "bg-success-foreground/20 text-success-foreground",
-  warning: "bg-warning-foreground/20 text-warning-foreground",
+  warning: "bg-white/20 text-white",
   destructive: "bg-destructive-foreground/20 text-destructive-foreground",
 };
 

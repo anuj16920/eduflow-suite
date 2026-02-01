@@ -43,11 +43,11 @@ function HeroSectionComponent() {
       
       {/* Grid Pattern */}
       <div 
-        className="absolute inset-0 opacity-[0.015] dark:opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.02] dark:opacity-[0.04]"
         style={{
           backgroundImage: `
-            linear-gradient(to right, hsl(var(--foreground)) 1px, transparent 1px),
-            linear-gradient(to bottom, hsl(var(--foreground)) 1px, transparent 1px)
+            linear-gradient(to right, hsl(var(--primary)) 1px, transparent 1px),
+            linear-gradient(to bottom, hsl(var(--primary)) 1px, transparent 1px)
           `,
           backgroundSize: '60px 60px',
         }}
@@ -66,7 +66,7 @@ function HeroSectionComponent() {
         >
           {/* Badge */}
           <motion.div variants={itemVariants} className="mb-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 backdrop-blur-sm">
               <Sparkles className="w-4 h-4 text-primary animate-pulse" />
               <span className="text-sm font-medium text-primary">
                 Trusted by 500+ schools worldwide
@@ -82,7 +82,7 @@ function HeroSectionComponent() {
           >
             <span className="block">The Complete</span>
             <span className="relative inline-block mt-2">
-              <span className="relative z-10 bg-gradient-to-r from-primary via-violet-500 to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
+              <span className="relative z-10 bg-gradient-to-r from-primary via-amber-500 to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
                 School Management
               </span>
               <motion.span
@@ -112,7 +112,7 @@ function HeroSectionComponent() {
             <Link to="/contact">
               <Button
                 size="lg"
-                className="group gradient-primary border-0 text-primary-foreground hover:opacity-90 shadow-xl shadow-primary/25 px-8 py-7 text-lg h-auto rounded-2xl transition-all duration-300 hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-1"
+                className="group gradient-primary border-0 text-primary-foreground hover:opacity-90 shadow-xl shadow-primary/30 px-8 py-7 text-lg h-auto rounded-2xl transition-all duration-300 hover:shadow-2xl hover:shadow-primary/40 hover:-translate-y-1"
               >
                 Request Free Demo
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -122,10 +122,10 @@ function HeroSectionComponent() {
               size="lg"
               variant="outline"
               onClick={handleOpenVideo}
-              className="group border-2 px-8 py-7 text-lg h-auto rounded-2xl hover:bg-primary/5 transition-all duration-300 hover:-translate-y-1"
+              className="group border-2 border-primary/30 px-8 py-7 text-lg h-auto rounded-2xl hover:bg-primary/5 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1"
             >
               <div className="relative mr-2">
-                <div className="absolute inset-0 bg-primary/20 rounded-full animate-ping" />
+                <div className="absolute inset-0 bg-primary/30 rounded-full animate-ping" />
                 <Play className="relative h-5 w-5 text-primary" />
               </div>
               Watch Video
@@ -135,7 +135,7 @@ function HeroSectionComponent() {
           {/* Trust Indicators */}
           <motion.div
             variants={itemVariants}
-            className="mt-16 pt-8 border-t border-border/50"
+            className="mt-16 pt-8 border-t border-primary/10"
           >
             <p className="text-sm text-muted-foreground mb-6">
               Powering education excellence at leading institutions

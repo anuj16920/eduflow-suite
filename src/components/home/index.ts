@@ -1,4 +1,5 @@
 export { HeroSection } from "./HeroSection";
+export { SparklingStars } from "./SparklingStars";
 export { StatsSection } from "./StatsSection";
 export { FeaturesSection } from "./FeaturesSection";
 export { BenefitsSection } from "./BenefitsSection";

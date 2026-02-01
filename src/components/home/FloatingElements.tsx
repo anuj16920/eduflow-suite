@@ -12,12 +12,13 @@ import {
   TrendingUp,
   MessageSquare
 } from "lucide-react";
+import { SparklingStars } from "./SparklingStars";
 
 const floatingCards = [
   {
     icon: Users,
     label: "1,234 Students",
-    color: "from-blue-500 to-blue-600",
+    color: "from-primary to-amber-500",
     delay: 0,
     position: "top-20 left-10",
     mobileHidden: false,
@@ -25,7 +26,7 @@ const floatingCards = [
   {
     icon: GraduationCap,
     label: "98% Pass Rate",
-    color: "from-green-500 to-emerald-600",
+    color: "from-amber-500 to-orange-600",
     delay: 0.5,
     position: "top-40 right-10",
     mobileHidden: true,
@@ -33,7 +34,7 @@ const floatingCards = [
   {
     icon: Star,
     label: "4.9 Rating",
-    color: "from-amber-500 to-orange-600",
+    color: "from-orange-500 to-red-500",
     delay: 1,
     position: "bottom-32 left-20",
     mobileHidden: true,
@@ -41,7 +42,7 @@ const floatingCards = [
   {
     icon: TrendingUp,
     label: "+27% Growth",
-    color: "from-purple-500 to-violet-600",
+    color: "from-amber-400 to-primary",
     delay: 1.5,
     position: "bottom-20 right-16",
     mobileHidden: false,
@@ -87,8 +88,8 @@ function FloatingCard({
       }}
       className={`absolute ${position} z-20 ${mobileHidden ? 'hidden lg:block' : 'hidden md:block'}`}
     >
-      <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-card/90 backdrop-blur-xl border border-border/50 shadow-lg hover:shadow-xl transition-shadow duration-300">
-        <div className={`flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br ${color} text-white shadow-md`}>
+      <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-card/90 backdrop-blur-xl border border-primary/20 shadow-lg hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 group">
+        <div className={`flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br ${color} text-white shadow-md group-hover:scale-110 transition-transform`}>
           <Icon className="w-5 h-5" />
         </div>
         <span className="font-semibold text-sm whitespace-nowrap">{label}</span>
@@ -110,7 +111,7 @@ function FloatingIcon({
     <motion.div
       initial={{ opacity: 0, scale: 0 }}
       animate={{ 
-        opacity: [0.4, 0.7, 0.4],
+        opacity: [0.4, 0.8, 0.4],
         scale: 1,
         rotate: [0, 10, -10, 0],
       }}
@@ -122,7 +123,7 @@ function FloatingIcon({
       className={`absolute ${position} z-10 hidden lg:block`}
     >
       <div className="p-3 rounded-full bg-primary/10 backdrop-blur-sm">
-        <Icon className="w-6 h-6 text-primary/60" />
+        <Icon className="w-6 h-6 text-primary/70" />
       </div>
     </motion.div>
   );
@@ -131,6 +132,9 @@ function FloatingIcon({
 function FloatingElementsComponent() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Sparkling Stars */}
+      <SparklingStars />
+
       {/* Floating Cards */}
       {floatingCards.map((card, index) => (
         <FloatingCard key={index} {...card} />
@@ -141,7 +145,7 @@ function FloatingElementsComponent() {
         <FloatingIcon key={index} {...item} />
       ))}
 
-      {/* Animated Background Orbs */}
+      {/* Animated Background Orbs - Fire Orange Theme */}
       <motion.div
         animate={{
           x: [0, 50, 0],
@@ -152,7 +156,7 @@ function FloatingElementsComponent() {
           repeat: Infinity,
           ease: "linear",
         }}
-        className="absolute top-20 left-1/4 w-72 h-72 rounded-full bg-primary/5 blur-3xl"
+        className="absolute top-20 left-1/4 w-72 h-72 rounded-full bg-primary/10 blur-3xl"
       />
       <motion.div
         animate={{
@@ -164,7 +168,7 @@ function FloatingElementsComponent() {
           repeat: Infinity,
           ease: "linear",
         }}
-        className="absolute bottom-20 right-1/4 w-96 h-96 rounded-full bg-accent/5 blur-3xl"
+        className="absolute bottom-20 right-1/4 w-96 h-96 rounded-full bg-amber-500/10 blur-3xl"
       />
       <motion.div
         animate={{
@@ -175,8 +179,34 @@ function FloatingElementsComponent() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-primary/3 to-accent/3 blur-3xl"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-primary/5 to-orange-500/5 blur-3xl"
       />
+
+      {/* Fire ember particles */}
+      {[...Array(8)].map((_, i) => (
+        <motion.div
+          key={`ember-${i}`}
+          animate={{
+            y: [0, -100, -200],
+            x: [0, Math.random() * 40 - 20, Math.random() * 60 - 30],
+            opacity: [0, 1, 0],
+            scale: [0.5, 1, 0.3],
+          }}
+          transition={{
+            duration: 4 + Math.random() * 2,
+            delay: i * 0.5,
+            repeat: Infinity,
+            ease: "easeOut",
+          }}
+          className="absolute bottom-10 rounded-full bg-primary"
+          style={{
+            left: `${20 + i * 8}%`,
+            width: `${4 + Math.random() * 4}px`,
+            height: `${4 + Math.random() * 4}px`,
+            boxShadow: "0 0 8px hsl(24 100% 50% / 0.8)",
+          }}
+        />
+      ))}
     </div>
   );
 }

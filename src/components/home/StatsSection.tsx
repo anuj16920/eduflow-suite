@@ -10,7 +10,7 @@ const stats = [
     suffix: "+",
     label: "Schools",
     description: "Worldwide",
-    gradient: "from-primary to-violet-500",
+    gradient: "from-primary to-amber-500",
   },
   {
     icon: Users,
@@ -18,7 +18,7 @@ const stats = [
     suffix: "M+",
     label: "Students",
     description: "Enrolled",
-    gradient: "from-accent to-emerald-400",
+    gradient: "from-amber-500 to-orange-500",
   },
   {
     icon: Clock,
@@ -26,7 +26,7 @@ const stats = [
     suffix: "%",
     label: "Uptime",
     description: "Guaranteed",
-    gradient: "from-success to-emerald-400",
+    gradient: "from-orange-500 to-red-500",
   },
   {
     icon: Star,
@@ -34,7 +34,7 @@ const stats = [
     suffix: "★",
     label: "Rating",
     description: "Average",
-    gradient: "from-warning to-amber-400",
+    gradient: "from-amber-400 to-primary",
   },
 ];
 
@@ -83,7 +83,7 @@ function StatsSectionComponent() {
               }}
               className="group relative"
             >
-              <div className="relative p-6 md:p-8 rounded-2xl md:rounded-3xl bg-card border border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+              <div className="relative p-6 md:p-8 rounded-2xl md:rounded-3xl bg-card border border-primary/10 shadow-lg hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 overflow-hidden">
                 {/* Gradient overlay on hover */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
                 

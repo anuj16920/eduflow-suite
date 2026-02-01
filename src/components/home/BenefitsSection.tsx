@@ -27,19 +27,19 @@ const highlights = [
     icon: Shield,
     title: "Secure & Reliable",
     description: "Bank-grade security with 99.9% uptime guarantee. Your data is protected with enterprise-level encryption.",
-    gradient: "from-primary to-violet-500",
+    gradient: "from-primary to-amber-500",
   },
   {
     icon: Zap,
     title: "Lightning Fast",
     description: "Optimized performance for seamless user experience. Load times under 100ms guaranteed.",
-    gradient: "from-warning to-amber-400",
+    gradient: "from-amber-500 to-orange-500",
   },
   {
     icon: TrendingUp,
     title: "Scalable Solution",
     description: "Grows with your institution from 50 to 50,000 students without missing a beat.",
-    gradient: "from-success to-emerald-400",
+    gradient: "from-orange-500 to-red-500",
   },
 ];
 
@@ -75,14 +75,14 @@ function BenefitsSectionComponent() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-success/10 border border-success/20 mb-6">
-              <CheckCircle className="w-4 h-4 text-success" />
-              <span className="text-sm font-medium text-success">Why Choose Us</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
+              <CheckCircle className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium text-primary">Why Choose Us</span>
             </div>
 
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight">
               Why Schools Choose
-              <span className="block bg-gradient-to-r from-primary to-violet-500 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-primary via-amber-500 to-orange-500 bg-clip-text text-transparent">
                 EduCore
               </span>
             </h2>
@@ -104,9 +104,9 @@ function BenefitsSectionComponent() {
                   key={benefit.text}
                   variants={itemVariants}
                   whileHover={{ x: 8 }}
-                  className="flex items-center gap-4 p-4 rounded-xl hover:bg-muted/50 transition-all duration-300 cursor-default"
+                  className="flex items-center gap-4 p-4 rounded-xl hover:bg-primary/5 transition-all duration-300 cursor-default"
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-success/10 text-success">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                     <benefit.icon className="h-5 w-5" />
                   </div>
                   <span className="text-base md:text-lg font-medium">{benefit.text}</span>
@@ -136,7 +136,7 @@ function BenefitsSectionComponent() {
                 }}
                 className="group relative"
               >
-                <div className="relative p-6 md:p-8 rounded-2xl md:rounded-3xl bg-card border border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+                <div className="relative p-6 md:p-8 rounded-2xl md:rounded-3xl bg-card border border-primary/10 shadow-lg hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 overflow-hidden">
                   {/* Gradient overlay */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${highlight.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
                   

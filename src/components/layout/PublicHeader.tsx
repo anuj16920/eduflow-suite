@@ -18,7 +18,7 @@ export function PublicHeader() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl">
       <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg gradient-primary">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg gradient-primary shadow-lg shadow-primary/30">
             <GraduationCap className="h-5 w-5 text-primary-foreground" />
           </div>
           <span className="text-xl font-bold tracking-tight">EduCore</span>
@@ -45,7 +45,7 @@ export function PublicHeader() {
             </Button>
           </Link>
           <Link to="/contact">
-            <Button size="sm" className="gradient-primary border-0 text-primary-foreground hover:opacity-90">
+            <Button size="sm" className="gradient-primary border-0 text-primary-foreground hover:opacity-90 shadow-md shadow-primary/30">
               Request Demo
             </Button>
           </Link>

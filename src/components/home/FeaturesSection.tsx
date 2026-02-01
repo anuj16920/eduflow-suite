@@ -16,37 +16,37 @@ const features = [
     icon: Users,
     title: "Admin Management",
     description: "Complete control over school operations with powerful admin tools and real-time dashboards.",
-    gradient: "from-primary to-violet-500",
+    gradient: "from-primary to-amber-500",
   },
   {
     icon: BookOpen,
     title: "Academic Excellence",
     description: "Manage curriculum, assignments, and track student progress with intelligent analytics.",
-    gradient: "from-accent to-emerald-400",
+    gradient: "from-amber-500 to-orange-500",
   },
   {
     icon: CreditCard,
     title: "Fee Management",
     description: "Automated billing, payment tracking, and comprehensive financial reports at your fingertips.",
-    gradient: "from-success to-emerald-400",
+    gradient: "from-orange-500 to-red-500",
   },
   {
     icon: MessageSquare,
     title: "Communication Hub",
     description: "Connect teachers, parents, and students seamlessly with instant messaging and notifications.",
-    gradient: "from-warning to-amber-400",
+    gradient: "from-amber-400 to-primary",
   },
   {
     icon: BarChart3,
     title: "Analytics & Reports",
     description: "Data-driven insights for better decision making with beautiful visualizations.",
-    gradient: "from-destructive to-rose-400",
+    gradient: "from-primary to-orange-600",
   },
   {
     icon: GraduationCap,
     title: "Student Portal",
     description: "Self-service portal for students to access resources, grades, and schedules.",
-    gradient: "from-primary to-indigo-400",
+    gradient: "from-orange-400 to-amber-500",
   },
 ];
 
@@ -79,9 +79,9 @@ function FeaturesSectionComponent() {
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-muted/30 via-muted/50 to-muted/30" />
       
-      {/* Decorative elements */}
+      {/* Decorative elements - Fire Orange */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl" />
 
       <div className="container relative">
         {/* Header */}
@@ -98,7 +98,7 @@ function FeaturesSectionComponent() {
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
             Everything You Need in
-            <span className="block bg-gradient-to-r from-primary to-violet-500 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-primary via-amber-500 to-orange-500 bg-clip-text text-transparent">
               One Platform
             </span>
           </h2>
@@ -126,7 +126,7 @@ function FeaturesSectionComponent() {
               }}
               className="group relative"
             >
-              <div className="relative h-full p-8 md:p-10 rounded-2xl md:rounded-3xl bg-card border border-border/50 shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden">
+              <div className="relative h-full p-8 md:p-10 rounded-2xl md:rounded-3xl bg-card border border-primary/10 shadow-lg hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 overflow-hidden">
                 {/* Hover gradient */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
                 
@@ -147,8 +147,8 @@ function FeaturesSectionComponent() {
                 </p>
 
                 {/* Arrow indicator */}
-                <div className="absolute bottom-8 right-8 w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1">
-                  <ArrowRight className="w-5 h-5 text-muted-foreground" />
+                <div className="absolute bottom-8 right-8 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1">
+                  <ArrowRight className="w-5 h-5 text-primary" />
                 </div>
               </div>
             </motion.div>

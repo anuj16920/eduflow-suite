@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 interface DashboardSidebarProps {
   collapsed: boolean;
   onToggle: () => void;
-  role: "admin" | "teacher" | "parent";
+  role: "admin" | "teacher" | "student" | "parent";
 }
 
 const adminLinks = [

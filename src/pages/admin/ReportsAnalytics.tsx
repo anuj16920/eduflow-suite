@@ -1,45 +1,24 @@
-import { useState } from "react";
-import {
-  BarChart3,
-  TrendingUp,
-  TrendingDown,
-  Download,
-  Calendar,
-  Users,
-  GraduationCap,
-  CreditCard,
-  FileText,
-  PieChart,
-} from "lucide-react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { SimpleCard, StatsCard } from "@/components/dashboard/StatsCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
+} from "@/components/ui/table";
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
+import {
+  BarChart3, TrendingUp, Download, Calendar, Users, GraduationCap,
+  CreditCard, FileText,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  PieChart as RechartsPie,
-  Pie,
-  Cell,
-  Legend,
-  AreaChart,
-  Area,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  AreaChart, Area, PieChart as RechartsPie, Pie, Cell, Legend,
 } from "recharts";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const attendanceData = [
   { month: "Jan", present: 92, absent: 8 },
@@ -50,391 +29,301 @@ const attendanceData = [
   { month: "Jun", present: 90, absent: 10 },
 ];
 
-const feeCollectionData = [
-  { month: "Jan", collected: 450000, pending: 50000 },
-  { month: "Feb", collected: 480000, pending: 45000 },
-  { month: "Mar", collected: 520000, pending: 30000 },
-  { month: "Apr", collected: 490000, pending: 35000 },
-  { month: "May", collected: 510000, pending: 40000 },
-  { month: "Jun", collected: 550000, pending: 25000 },
-];
-
-const performanceData = [
-  { subject: "Math", average: 78, highest: 98, lowest: 45 },
-  { subject: "Science", average: 72, highest: 95, lowest: 38 },
-  { subject: "English", average: 82, highest: 97, lowest: 52 },
-  { subject: "Hindi", average: 75, highest: 94, lowest: 48 },
-  { subject: "Social", average: 70, highest: 92, lowest: 42 },
-];
-
-const classDistribution = [
-  { name: "Class 6", value: 180, color: "hsl(var(--primary))" },
-  { name: "Class 7", value: 195, color: "hsl(var(--success))" },
-  { name: "Class 8", value: 210, color: "hsl(var(--warning))" },
-  { name: "Class 9", value: 225, color: "hsl(var(--accent))" },
-  { name: "Class 10", value: 200, color: "hsl(var(--destructive))" },
-];
-
 const gradeDistribution = [
-  { grade: "A+", students: 120 },
-  { grade: "A", students: 280 },
-  { grade: "B+", students: 350 },
-  { grade: "B", students: 420 },
-  { grade: "C+", students: 280 },
-  { grade: "C", students: 150 },
-  { grade: "D", students: 80 },
+  { grade: "A+", students: 120, color: "hsl(var(--success))" },
+  { grade: "A", students: 280, color: "hsl(var(--success))" },
+  { grade: "B+", students: 350, color: "hsl(var(--primary))" },
+  { grade: "B", students: 420, color: "hsl(var(--primary))" },
+  { grade: "C+", students: 280, color: "hsl(var(--warning))" },
+  { grade: "C", students: 150, color: "hsl(var(--warning))" },
+  { grade: "D", students: 80, color: "hsl(var(--destructive))" },
 ];
 
 export default function ReportsAnalytics() {
+  const [students, setStudents] = useState<any[]>([]);
+  const [exams, setExams] = useState<any[]>([]);
+  const [marks, setMarks] = useState<any[]>([]);
+  const [selectedExam, setSelectedExam] = useState("");
   const [timeRange, setTimeRange] = useState("6months");
 
-  const handleExport = (reportType: string) => {
-    // In a real app, this would generate and download the report
-    console.log(`Exporting ${reportType} report...`);
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const [studentsRes, examsRes, marksRes] = await Promise.all([
+      supabase.from("students").select("*, profiles(*)"),
+      supabase.from("exams").select("*"),
+      supabase.from("marks").select("*, students(*, profiles(*)), subjects(*), exams(*)"),
+    ]);
+    if (studentsRes.data) setStudents(studentsRes.data);
+    if (examsRes.data) setExams(examsRes.data);
+    if (marksRes.data) setMarks(marksRes.data);
+  };
+
+  const generateReportCard = (studentId?: string) => {
+    const studentMarks = studentId ? marks.filter((m) => m.student_id === studentId) : marks;
+    if (studentMarks.length === 0) {
+      alert("No marks data available to generate report card.");
+      return;
+    }
+
+    const student = studentMarks[0]?.students;
+    const studentName = student?.profiles?.full_name || "Student";
+
+    // Generate PDF-like content
+    let htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Report Card - ${studentName}</title>
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { font-family: 'Georgia', serif; background: #fff; color: #1a1a1a; padding: 40px; }
+          .header { text-align: center; border-bottom: 3px double #d45500; padding-bottom: 20px; margin-bottom: 30px; }
+          .header h1 { font-size: 28px; color: #d45500; margin-bottom: 5px; }
+          .header h2 { font-size: 18px; color: #666; font-weight: normal; }
+          .student-info { display: flex; justify-content: space-between; margin-bottom: 30px; padding: 15px; background: #fff5ee; border-radius: 8px; }
+          .student-info div { }
+          .student-info label { font-size: 12px; color: #888; text-transform: uppercase; }
+          .student-info p { font-size: 16px; font-weight: 600; }
+          table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+          th { background: #d45500; color: white; padding: 12px 15px; text-align: left; font-size: 14px; }
+          td { padding: 10px 15px; border-bottom: 1px solid #eee; font-size: 14px; }
+          tr:nth-child(even) { background: #fafafa; }
+          .grade-A { color: #16a34a; font-weight: 700; }
+          .grade-B { color: #d45500; font-weight: 700; }
+          .grade-C { color: #eab308; font-weight: 700; }
+          .grade-D { color: #dc2626; font-weight: 700; }
+          .summary { display: flex; justify-content: space-around; padding: 20px; background: linear-gradient(135deg, #d45500, #ff8c00); border-radius: 12px; color: white; }
+          .summary div { text-align: center; }
+          .summary .value { font-size: 28px; font-weight: 700; }
+          .summary .label { font-size: 12px; opacity: 0.8; }
+          .footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #888; font-size: 12px; }
+          @media print { body { padding: 20px; } }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>🎓 EduCore Academy</h1>
+          <h2>Academic Report Card</h2>
+        </div>
+        <div class="student-info">
+          <div><label>Student Name</label><p>${studentName}</p></div>
+          <div><label>Email</label><p>${student?.profiles?.email || "N/A"}</p></div>
+          <div><label>Exam</label><p>${studentMarks[0]?.exams?.name || "Final Exam"}</p></div>
+          <div><label>Date</label><p>${new Date().toLocaleDateString("en-IN")}</p></div>
+        </div>
+        <table>
+          <thead>
+            <tr><th>Subject</th><th>Marks Obtained</th><th>Max Marks</th><th>Percentage</th><th>Grade</th></tr>
+          </thead>
+          <tbody>
+    `;
+
+    let totalObtained = 0;
+    let totalMax = 0;
+
+    studentMarks.forEach((m) => {
+      const obtained = m.marks_obtained || 0;
+      const max = m.max_marks || 100;
+      const pct = ((obtained / max) * 100).toFixed(1);
+      const grade = obtained / max >= 0.9 ? "A+" : obtained / max >= 0.8 ? "A" : obtained / max >= 0.7 ? "B+" : obtained / max >= 0.6 ? "B" : obtained / max >= 0.5 ? "C" : "D";
+      const gradeClass = grade.startsWith("A") ? "grade-A" : grade.startsWith("B") ? "grade-B" : grade.startsWith("C") ? "grade-C" : "grade-D";
+      totalObtained += obtained;
+      totalMax += max;
+      htmlContent += `<tr><td>${m.subjects?.name || "Subject"}</td><td>${obtained}</td><td>${max}</td><td>${pct}%</td><td class="${gradeClass}">${grade}</td></tr>`;
+    });
+
+    const overallPct = totalMax > 0 ? ((totalObtained / totalMax) * 100).toFixed(1) : "0";
+    const overallGrade = parseFloat(overallPct) >= 90 ? "A+" : parseFloat(overallPct) >= 80 ? "A" : parseFloat(overallPct) >= 70 ? "B+" : parseFloat(overallPct) >= 60 ? "B" : parseFloat(overallPct) >= 50 ? "C" : "D";
+
+    htmlContent += `
+          </tbody>
+        </table>
+        <div class="summary">
+          <div><div class="value">${totalObtained}/${totalMax}</div><div class="label">Total Marks</div></div>
+          <div><div class="value">${overallPct}%</div><div class="label">Percentage</div></div>
+          <div><div class="value">${overallGrade}</div><div class="label">Overall Grade</div></div>
+          <div><div class="value">${studentMarks.length}</div><div class="label">Subjects</div></div>
+        </div>
+        <div class="footer">
+          <p>Generated by EduCore Academy Management System on ${new Date().toLocaleString("en-IN")}</p>
+          <p>This is a computer-generated report card.</p>
+        </div>
+      </body>
+      </html>
+    `;
+
+    // Open in new window for printing/saving as PDF
+    const printWindow = window.open("", "_blank");
+    if (printWindow) {
+      printWindow.document.write(htmlContent);
+      printWindow.document.close();
+      setTimeout(() => printWindow.print(), 500);
+    }
   };
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold">Reports & Analytics</h1>
-          <p className="text-muted-foreground">Comprehensive insights and data visualization</p>
+          <p className="text-muted-foreground">Comprehensive insights, report cards, and data visualization</p>
         </div>
         <div className="flex items-center gap-3">
           <Select value={timeRange} onValueChange={setTimeRange}>
-            <SelectTrigger className="w-40">
-              <Calendar className="h-4 w-4 mr-2" />
-              <SelectValue />
-            </SelectTrigger>
+            <SelectTrigger className="w-40"><Calendar className="h-4 w-4 mr-2" /><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="1month">Last Month</SelectItem>
-              <SelectItem value="3months">Last 3 Months</SelectItem>
-              <SelectItem value="6months">Last 6 Months</SelectItem>
-              <SelectItem value="1year">Last Year</SelectItem>
+              <SelectItem value="3months">3 Months</SelectItem>
+              <SelectItem value="6months">6 Months</SelectItem>
+              <SelectItem value="1year">1 Year</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline">
-            <Download className="h-4 w-4 mr-2" />
-            Export All
+          <Button variant="outline" onClick={() => generateReportCard()}>
+            <Download className="h-4 w-4 mr-2" />Download Report Card
           </Button>
         </div>
       </div>
 
-      {/* Overview Stats */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatsCard
-          title="Total Students"
-          value="2,847"
-          change={{ value: "12%", positive: true }}
-          icon={GraduationCap}
-        />
-        <StatsCard
-          title="Avg Attendance"
-          value="93.2%"
-          change={{ value: "2.1%", positive: true }}
-          icon={Users}
-          variant="success"
-        />
-        <StatsCard
-          title="Fee Collection"
-          value="₹24.5L"
-          change={{ value: "8%", positive: true }}
-          icon={CreditCard}
-          variant="primary"
-        />
-        <StatsCard
-          title="Avg Performance"
-          value="75.4%"
-          change={{ value: "3%", positive: true }}
-          icon={BarChart3}
-        />
+        <StatsCard title="Total Students" value={students.length} icon={GraduationCap} change={{ value: "12%", positive: true }} />
+        <StatsCard title="Avg Attendance" value="93.2%" icon={Users} variant="success" change={{ value: "2.1%", positive: true }} />
+        <StatsCard title="Exams Conducted" value={exams.length} icon={FileText} variant="primary" />
+        <StatsCard title="Marks Entries" value={marks.length} icon={BarChart3} variant="warning" />
       </div>
 
-      {/* Tabs */}
-      <Tabs defaultValue="attendance" className="space-y-6">
+      <Tabs defaultValue="reportcards" className="space-y-6">
         <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-flex">
+          <TabsTrigger value="reportcards">Report Cards</TabsTrigger>
           <TabsTrigger value="attendance">Attendance</TabsTrigger>
-          <TabsTrigger value="fees">Fees</TabsTrigger>
           <TabsTrigger value="performance">Performance</TabsTrigger>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="grades">Grades</TabsTrigger>
         </TabsList>
 
-        {/* Attendance Tab */}
+        <TabsContent value="reportcards">
+          <SimpleCard title="Student Report Cards" description="Select a student to generate and download their report card as PDF">
+            {students.length === 0 ? (
+              <div className="text-center py-12">
+                <FileText className="h-12 w-12 mx-auto text-muted-foreground/50 mb-3" />
+                <p className="text-muted-foreground">No students found</p>
+              </div>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Student</TableHead>
+                    <TableHead>Class</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="text-right">Action</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {students.map((s) => (
+                    <TableRow key={s.id}>
+                      <TableCell>
+                        <div className="flex items-center gap-3">
+                          <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                            <span className="text-xs font-medium text-primary">
+                              {(s.profiles?.full_name || "?").split(" ").map((n: string) => n[0]).join("")}
+                            </span>
+                          </div>
+                          <div>
+                            <p className="font-medium">{s.profiles?.full_name}</p>
+                            <p className="text-xs text-muted-foreground">{s.profiles?.email}</p>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell><Badge variant="secondary">{s.admission_number || "—"}</Badge></TableCell>
+                      <TableCell>
+                        <Badge className="bg-success/10 text-success">{s.status || "active"}</Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button size="sm" variant="outline" onClick={() => generateReportCard(s.id)}>
+                          <Download className="h-4 w-4 mr-2" />Report Card
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </SimpleCard>
+        </TabsContent>
+
         <TabsContent value="attendance" className="space-y-6">
-          <div className="grid lg:grid-cols-3 gap-6">
-            <SimpleCard
-              title="Attendance Trend"
-              className="lg:col-span-2"
-              action={
-                <Button size="sm" variant="outline" onClick={() => handleExport("attendance")}>
-                  <Download className="h-4 w-4 mr-2" />
-                  Export
-                </Button>
-              }
-            >
-              <div className="h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={attendanceData}>
-                    <defs>
-                      <linearGradient id="colorPresent" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="hsl(var(--success))" stopOpacity={0.3} />
-                        <stop offset="95%" stopColor="hsl(var(--success))" stopOpacity={0} />
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                    <XAxis dataKey="month" className="text-xs" />
-                    <YAxis className="text-xs" domain={[80, 100]} />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: "hsl(var(--card))",
-                        border: "1px solid hsl(var(--border))",
-                        borderRadius: "8px",
-                      }}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="present"
-                      stroke="hsl(var(--success))"
-                      fillOpacity={1}
-                      fill="url(#colorPresent)"
-                      strokeWidth={2}
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </SimpleCard>
-
-            <SimpleCard title="Attendance Summary">
-              <div className="space-y-6">
-                <div className="text-center">
-                  <p className="text-5xl font-bold text-success">93.2%</p>
-                  <p className="text-muted-foreground">Average Attendance</p>
-                </div>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Present Today</span>
-                    <span className="font-semibold">2,654</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Absent Today</span>
-                    <span className="font-semibold text-destructive">193</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">On Leave</span>
-                    <span className="font-semibold text-warning">45</span>
-                  </div>
-                </div>
-                <div className="pt-4 border-t">
-                  <div className="flex items-center gap-2 text-success text-sm">
-                    <TrendingUp className="h-4 w-4" />
-                    <span>+2.1% from last month</span>
-                  </div>
-                </div>
-              </div>
-            </SimpleCard>
-          </div>
+          <SimpleCard title="Attendance Trend">
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={attendanceData}>
+                  <defs>
+                    <linearGradient id="colorPresent" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="hsl(var(--success))" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="hsl(var(--success))" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <XAxis dataKey="month" className="text-xs" />
+                  <YAxis className="text-xs" domain={[80, 100]} />
+                  <Tooltip contentStyle={{ backgroundColor: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "8px" }} />
+                  <Area type="monotone" dataKey="present" stroke="hsl(var(--success))" fillOpacity={1} fill="url(#colorPresent)" strokeWidth={2} />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </SimpleCard>
         </TabsContent>
 
-        {/* Fees Tab */}
-        <TabsContent value="fees" className="space-y-6">
-          <div className="grid lg:grid-cols-3 gap-6">
-            <SimpleCard
-              title="Fee Collection Trend"
-              className="lg:col-span-2"
-              action={
-                <Button size="sm" variant="outline" onClick={() => handleExport("fees")}>
-                  <Download className="h-4 w-4 mr-2" />
-                  Export
-                </Button>
-              }
-            >
+        <TabsContent value="performance">
+          <SimpleCard title="Subject Performance (from marks data)">
+            {marks.length === 0 ? (
+              <div className="text-center py-12">
+                <BarChart3 className="h-12 w-12 mx-auto text-muted-foreground/50 mb-3" />
+                <p className="text-muted-foreground">No marks data available yet</p>
+                <p className="text-sm text-muted-foreground">Teachers need to enter marks first</p>
+              </div>
+            ) : (
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={feeCollectionData}>
+                  <BarChart data={
+                    Object.values(marks.reduce((acc: any, m) => {
+                      const subName = m.subjects?.name || "Unknown";
+                      if (!acc[subName]) acc[subName] = { subject: subName, total: 0, count: 0 };
+                      acc[subName].total += (m.marks_obtained || 0);
+                      acc[subName].count += 1;
+                      return acc;
+                    }, {})).map((s: any) => ({ ...s, average: Math.round(s.total / s.count) }))
+                  }>
                     <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                    <XAxis dataKey="month" className="text-xs" />
-                    <YAxis className="text-xs" tickFormatter={(v) => `₹${v / 1000}k`} />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: "hsl(var(--card))",
-                        border: "1px solid hsl(var(--border))",
-                        borderRadius: "8px",
-                      }}
-                      formatter={(value: number) => [`₹${(value / 1000).toFixed(0)}k`, ""]}
-                    />
-                    <Legend />
-                    <Bar dataKey="collected" fill="hsl(var(--success))" radius={[4, 4, 0, 0]} name="Collected" />
-                    <Bar dataKey="pending" fill="hsl(var(--warning))" radius={[4, 4, 0, 0]} name="Pending" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </SimpleCard>
-
-            <SimpleCard title="Fee Summary">
-              <div className="space-y-6">
-                <div className="text-center">
-                  <p className="text-4xl font-bold">₹24.5L</p>
-                  <p className="text-muted-foreground">Total Collected</p>
-                </div>
-                <div className="space-y-4">
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm">Collection Rate</span>
-                      <span className="font-semibold">85%</span>
-                    </div>
-                    <div className="h-2 rounded-full bg-muted overflow-hidden">
-                      <div className="h-full w-[85%] bg-success rounded-full" />
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Pending Amount</span>
-                    <span className="font-semibold text-warning">₹3.2L</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Students with Dues</span>
-                    <span className="font-semibold">247</span>
-                  </div>
-                </div>
-              </div>
-            </SimpleCard>
-          </div>
-        </TabsContent>
-
-        {/* Performance Tab */}
-        <TabsContent value="performance" className="space-y-6">
-          <div className="grid lg:grid-cols-2 gap-6">
-            <SimpleCard
-              title="Subject-wise Performance"
-              action={
-                <Button size="sm" variant="outline" onClick={() => handleExport("performance")}>
-                  <Download className="h-4 w-4 mr-2" />
-                  Export
-                </Button>
-              }
-            >
-              <div className="h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={performanceData} layout="vertical">
-                    <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                    <XAxis type="number" domain={[0, 100]} className="text-xs" />
-                    <YAxis type="category" dataKey="subject" className="text-xs" width={60} />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: "hsl(var(--card))",
-                        border: "1px solid hsl(var(--border))",
-                        borderRadius: "8px",
-                      }}
-                    />
-                    <Legend />
-                    <Bar dataKey="average" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} name="Average" />
-                    <Bar dataKey="highest" fill="hsl(var(--success))" radius={[0, 4, 4, 0]} name="Highest" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </SimpleCard>
-
-            <SimpleCard title="Grade Distribution">
-              <div className="h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={gradeDistribution}>
-                    <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                    <XAxis dataKey="grade" className="text-xs" />
+                    <XAxis dataKey="subject" className="text-xs" />
                     <YAxis className="text-xs" />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: "hsl(var(--card))",
-                        border: "1px solid hsl(var(--border))",
-                        borderRadius: "8px",
-                      }}
-                    />
-                    <Bar dataKey="students" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]}>
-                      {gradeDistribution.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={
-                            index < 2
-                              ? "hsl(var(--success))"
-                              : index < 4
-                              ? "hsl(var(--primary))"
-                              : index < 6
-                              ? "hsl(var(--warning))"
-                              : "hsl(var(--destructive))"
-                          }
-                        />
-                      ))}
-                    </Bar>
+                    <Tooltip contentStyle={{ backgroundColor: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "8px" }} />
+                    <Bar dataKey="average" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} name="Average Marks" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
-            </SimpleCard>
-          </div>
+            )}
+          </SimpleCard>
         </TabsContent>
 
-        {/* Overview Tab */}
-        <TabsContent value="overview" className="space-y-6">
-          <div className="grid lg:grid-cols-2 gap-6">
-            <SimpleCard title="Class Distribution">
-              <div className="h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                  <RechartsPie>
-                    <Pie
-                      data={classDistribution}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={60}
-                      outerRadius={100}
-                      paddingAngle={5}
-                      dataKey="value"
-                    >
-                      {classDistribution.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: "hsl(var(--card))",
-                        border: "1px solid hsl(var(--border))",
-                        borderRadius: "8px",
-                      }}
-                    />
-                    <Legend />
-                  </RechartsPie>
-                </ResponsiveContainer>
-              </div>
-            </SimpleCard>
-
-            <SimpleCard title="Quick Reports">
-              <div className="space-y-3">
-                {[
-                  { name: "Monthly Attendance Report", icon: Users },
-                  { name: "Fee Collection Statement", icon: CreditCard },
-                  { name: "Exam Results Summary", icon: FileText },
-                  { name: "Teacher Performance", icon: BarChart3 },
-                  { name: "Student Progress Cards", icon: GraduationCap },
-                ].map((report, index) => (
-                  <motion.div
-                    key={report.name}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 transition-colors cursor-pointer"
-                    onClick={() => handleExport(report.name)}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                        <report.icon className="h-5 w-5 text-primary" />
-                      </div>
-                      <span className="font-medium">{report.name}</span>
-                    </div>
-                    <Button size="sm" variant="ghost">
-                      <Download className="h-4 w-4" />
-                    </Button>
-                  </motion.div>
-                ))}
-              </div>
-            </SimpleCard>
-          </div>
+        <TabsContent value="grades">
+          <SimpleCard title="Grade Distribution">
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={gradeDistribution}>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <XAxis dataKey="grade" className="text-xs" />
+                  <YAxis className="text-xs" />
+                  <Tooltip contentStyle={{ backgroundColor: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "8px" }} />
+                  <Bar dataKey="students" radius={[4, 4, 0, 0]}>
+                    {gradeDistribution.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </SimpleCard>
         </TabsContent>
       </Tabs>
     </div>

@@ -16,7 +16,7 @@ interface StatsCardProps {
 }
 
 const variantStyles = {
-  default: "bg-card border-primary/10",
+  default: "glass-card",
   primary: "gradient-primary text-primary-foreground shadow-lg shadow-primary/20",
   success: "gradient-success text-success-foreground",
   warning: "bg-gradient-to-br from-amber-500 to-orange-500 text-white",
@@ -104,11 +104,11 @@ export function SimpleCard({
   const actionElement = action || headerAction;
   return (
     <div className={cn(
-      "rounded-xl border border-border bg-card shadow-card",
+      "rounded-xl border border-border/50 bg-card/50 backdrop-blur-sm shadow-card",
       className
     )}>
       {(title || actionElement) && (
-        <div className="flex items-center justify-between border-b border-border px-6 py-4">
+        <div className="flex items-center justify-between border-b border-border/50 px-6 py-4">
           <div>
             {title && <h3 className="font-semibold">{title}</h3>}
             {description && (
@@ -119,6 +119,25 @@ export function SimpleCard({
         </div>
       )}
       <div className="p-6">{children}</div>
+    </div>
+  );
+}
+
+// Glass card for the dark glassmorphism aesthetic
+export function GlassCard({
+  children,
+  className,
+  ...props
+}: { children: ReactNode; className?: string } & React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      className={cn(
+        "rounded-xl border border-border/30 bg-card/30 backdrop-blur-xl shadow-elevated",
+        className
+      )}
+      {...props}
+    >
+      {children}
     </div>
   );
 }

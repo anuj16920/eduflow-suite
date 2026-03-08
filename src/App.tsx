@@ -36,6 +36,7 @@ import ELearningManagement from "./pages/admin/ELearningManagement";
 import AttendanceManagement from "./pages/admin/AttendanceManagement";
 import StudentProfilePage from "./pages/admin/StudentProfilePage";
 import AddStudentPage from "./pages/admin/AddStudentPage";
+import StudentAttendanceCalendarPage from "./pages/admin/StudentAttendanceCalendarPage";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";

@@ -1,37 +1,13 @@
-import { Users, GraduationCap, CreditCard, AlertCircle, TrendingUp, TrendingDown, Calendar, Clock } from "lucide-react";
+import { Users, GraduationCap, CreditCard, AlertCircle, TrendingUp, Calendar, Clock } from "lucide-react";
 import { StatsCard, SimpleCard } from "@/components/dashboard/StatsCard";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
 const stats = [
-  {
-    title: "Total Students",
-    value: "2,847",
-    change: { value: "12%", positive: true },
-    icon: GraduationCap,
-    variant: "default" as const,
-  },
-  {
-    title: "Total Teachers",
-    value: "156",
-    change: { value: "3%", positive: true },
-    icon: Users,
-    variant: "default" as const,
-  },
-  {
-    title: "Fees Collected",
-    value: "₹24.5L",
-    change: { value: "8%", positive: true },
-    icon: CreditCard,
-    variant: "primary" as const,
-  },
-  {
-    title: "Pending Dues",
-    value: "₹3.2L",
-    change: { value: "5%", positive: false },
-    icon: AlertCircle,
-    variant: "warning" as const,
-  },
+  { title: "Total Students", value: "2,847", change: { value: "12%", positive: true }, icon: GraduationCap, variant: "default" as const },
+  { title: "Total Teachers", value: "156", change: { value: "3%", positive: true }, icon: Users, variant: "primary" as const },
+  { title: "Fees Collected", value: "₹24.5L", change: { value: "8%", positive: true }, icon: CreditCard, variant: "success" as const },
+  { title: "Pending Dues", value: "₹3.2L", change: { value: "5%", positive: false }, icon: AlertCircle, variant: "warning" as const },
 ];
 
 const recentActivities = [
@@ -57,45 +33,41 @@ const upcomingEvents = [
 
 export default function AdminDashboard() {
   return (
-    <div className="space-y-6">
-      {/* Header */}
+    <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold">Dashboard</h1>
+          <h1 className="text-3xl font-bold">Dashboard</h1>
           <p className="text-muted-foreground">Welcome back, Administrator</p>
         </div>
         <div className="flex items-center gap-3">
-          <Button variant="outline">Download Report</Button>
-          <Button className="gradient-primary border-0 text-primary-foreground hover:opacity-90">
+          <Button variant="ghost" className="text-muted-foreground">Download Report</Button>
+          <Button className="gradient-primary border-0 text-primary-foreground hover:opacity-90 rounded-xl">
             Add New Student
           </Button>
         </div>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat, index) => (
+        {stats.map((stat) => (
           <StatsCard key={stat.title} {...stat} />
         ))}
       </div>
 
-      {/* Main Content */}
       <div className="grid lg:grid-cols-3 gap-6">
-        {/* Recent Activities */}
         <div className="lg:col-span-2">
           <SimpleCard title="Recent Activities">
-            <div className="space-y-4">
+            <div className="space-y-1">
               {recentActivities.map((activity, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="flex items-center justify-between py-3 border-b border-border last:border-0"
+                  className="flex items-center justify-between py-4 border-b border-border/30 last:border-0"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <span className="text-sm font-medium text-primary">
+                    <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                      <span className="text-sm font-bold text-primary">
                         {activity.name.split(" ").map((n) => n[0]).join("")}
                       </span>
                     </div>
@@ -111,42 +83,33 @@ export default function AdminDashboard() {
                       </p>
                     </div>
                   </div>
-                  <span className="text-xs text-muted-foreground whitespace-nowrap">
-                    {activity.time}
-                  </span>
+                  <span className="text-xs text-muted-foreground whitespace-nowrap">{activity.time}</span>
                 </motion.div>
               ))}
             </div>
           </SimpleCard>
         </div>
 
-        {/* Right Column */}
         <div className="space-y-6">
-          {/* Quick Actions */}
           <SimpleCard title="Quick Actions">
             <div className="grid grid-cols-2 gap-3">
               {quickActions.map((action) => (
-                <Button
+                <button
                   key={action.label}
-                  variant="outline"
-                  className="h-auto flex-col gap-2 py-4"
+                  className="flex flex-col items-center gap-2 py-5 rounded-xl bg-muted/40 hover:bg-muted/70 transition-colors"
                 >
-                  <action.icon className="h-5 w-5" />
-                  <span className="text-xs">{action.label}</span>
-                </Button>
+                  <action.icon className="h-5 w-5 text-primary" />
+                  <span className="text-xs font-medium">{action.label}</span>
+                </button>
               ))}
             </div>
           </SimpleCard>
 
-          {/* Upcoming Events */}
           <SimpleCard title="Upcoming Events">
             <div className="space-y-3">
               {upcomingEvents.map((event, index) => (
-                <div
-                  key={index}
-                  className="flex items-start gap-3 p-3 rounded-lg bg-muted/50"
-                >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <div key={index} className="flex items-start gap-3 p-3 rounded-xl bg-muted/30 hover:bg-muted/50 transition-colors">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 text-primary">
                     <Calendar className="h-5 w-5" />
                   </div>
                   <div className="flex-1">
@@ -165,7 +128,6 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Attendance & Performance Overview */}
       <div className="grid md:grid-cols-2 gap-6">
         <SimpleCard title="Today's Attendance">
           <div className="space-y-4">
@@ -173,17 +135,13 @@ export default function AdminDashboard() {
               <span className="text-sm text-muted-foreground">Students Present</span>
               <span className="text-2xl font-bold">2,654</span>
             </div>
-            <div className="h-2 rounded-full bg-muted overflow-hidden">
-              <div
-                className="h-full gradient-success rounded-full"
-                style={{ width: "93.2%" }}
-              />
+            <div className="h-2 rounded-full bg-muted/50 overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full" style={{ width: "93.2%" }} />
             </div>
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">93.2% attendance rate</span>
-              <span className="flex items-center gap-1 text-success">
-                <TrendingUp className="h-4 w-4" />
-                +2.1% from yesterday
+              <span className="flex items-center gap-1 text-emerald-500">
+                <TrendingUp className="h-4 w-4" />+2.1% from yesterday
               </span>
             </div>
           </div>
@@ -195,17 +153,13 @@ export default function AdminDashboard() {
               <span className="text-sm text-muted-foreground">Collected</span>
               <span className="text-2xl font-bold">₹18.5L / ₹24L</span>
             </div>
-            <div className="h-2 rounded-full bg-muted overflow-hidden">
-              <div
-                className="h-full gradient-primary rounded-full"
-                style={{ width: "77%" }}
-              />
+            <div className="h-2 rounded-full bg-muted/50 overflow-hidden">
+              <div className="h-full gradient-primary rounded-full" style={{ width: "77%" }} />
             </div>
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">77% of target achieved</span>
-              <span className="flex items-center gap-1 text-warning">
-                <AlertCircle className="h-4 w-4" />
-                ₹5.5L pending
+              <span className="flex items-center gap-1 text-amber-500">
+                <AlertCircle className="h-4 w-4" />₹5.5L pending
               </span>
             </div>
           </div>

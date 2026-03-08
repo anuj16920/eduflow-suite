@@ -1,64 +1,39 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { StatsCard, SimpleCard } from "@/components/dashboard/StatsCard";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { BarChart3 } from "lucide-react";
+import { Award, TrendingUp, BookOpen } from "lucide-react";
 
 const results = [
-  { subject: "Mathematics", marks: 88, max: 100, grade: "A" },
-  { subject: "Physics", marks: 76, max: 100, grade: "B+" },
-  { subject: "Chemistry", marks: 82, max: 100, grade: "A-" },
-  { subject: "English", marks: 91, max: 100, grade: "A+" },
-  { subject: "Computer Science", marks: 95, max: 100, grade: "A+" },
-  { subject: "Hindi", marks: 78, max: 100, grade: "B+" },
+  { subject: "Mathematics", marks: 92, maxMarks: 100, grade: "A+" },
+  { subject: "Physics", marks: 85, maxMarks: 100, grade: "A" },
+  { subject: "Chemistry", marks: 78, maxMarks: 100, grade: "B+" },
+  { subject: "English", marks: 90, maxMarks: 100, grade: "A+" },
+  { subject: "Biology", marks: 88, maxMarks: 100, grade: "A" },
 ];
-
 const total = results.reduce((s, r) => s + r.marks, 0);
-const maxTotal = results.reduce((s, r) => s + r.max, 0);
+const maxTotal = results.reduce((s, r) => s + r.maxMarks, 0);
 const percentage = ((total / maxTotal) * 100).toFixed(1);
 
 export default function StudentResults() {
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Results</h1>
-        <p className="text-muted-foreground">Mid-Term Examination 2025-2026</p>
+    <div className="space-y-8">
+      <div><h1 className="text-3xl font-bold">Results</h1><p className="text-muted-foreground">Your examination results</p></div>
+      <div className="grid sm:grid-cols-3 gap-4">
+        <StatsCard title="Total Marks" value={`${total}/${maxTotal}`} icon={BookOpen} variant="primary" />
+        <StatsCard title="Percentage" value={`${percentage}%`} icon={TrendingUp} variant="success" />
+        <StatsCard title="Overall Grade" value="A" icon={Award} variant="warning" />
       </div>
-
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card><CardContent className="p-4 text-center"><p className="text-sm text-muted-foreground">Total Marks</p><p className="text-3xl font-bold">{total}/{maxTotal}</p></CardContent></Card>
-        <Card><CardContent className="p-4 text-center"><p className="text-sm text-muted-foreground">Percentage</p><p className="text-3xl font-bold text-primary">{percentage}%</p></CardContent></Card>
-        <Card><CardContent className="p-4 text-center"><p className="text-sm text-muted-foreground">Overall Grade</p><p className="text-3xl font-bold text-success">A</p></CardContent></Card>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2"><BarChart3 className="h-5 w-5 text-primary" /> Subject-wise Results</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Subject</TableHead>
-                <TableHead>Marks Obtained</TableHead>
-                <TableHead>Max Marks</TableHead>
-                <TableHead>Percentage</TableHead>
-                <TableHead>Grade</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {results.map((r) => (
-                <TableRow key={r.subject}>
-                  <TableCell className="font-medium">{r.subject}</TableCell>
-                  <TableCell>{r.marks}</TableCell>
-                  <TableCell>{r.max}</TableCell>
-                  <TableCell>{((r.marks / r.max) * 100).toFixed(0)}%</TableCell>
-                  <TableCell><Badge variant="outline">{r.grade}</Badge></TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      <SimpleCard title="Subject-wise Results">
+        <Table>
+          <TableHeader><TableRow className="border-border/30"><TableHead>Subject</TableHead><TableHead className="text-right">Marks</TableHead><TableHead className="text-right">Max</TableHead><TableHead className="text-right">%</TableHead><TableHead className="text-right">Grade</TableHead></TableRow></TableHeader>
+          <TableBody>{results.map((r) => (
+            <TableRow key={r.subject} className="border-border/20 hover:bg-muted/30">
+              <TableCell className="font-medium">{r.subject}</TableCell><TableCell className="text-right">{r.marks}</TableCell><TableCell className="text-right text-muted-foreground">{r.maxMarks}</TableCell><TableCell className="text-right">{((r.marks / r.maxMarks) * 100).toFixed(0)}%</TableCell>
+              <TableCell className="text-right"><Badge className={r.grade.startsWith("A") ? "bg-emerald-500/10 text-emerald-500" : "bg-primary/10 text-primary"}>{r.grade}</Badge></TableCell>
+            </TableRow>
+          ))}</TableBody>
+        </Table>
+      </SimpleCard>
     </div>
   );
 }

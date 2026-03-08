@@ -10,7 +10,7 @@ import { UserCheck, Users, AlertCircle, Calendar } from "lucide-react";
 export default function AttendanceManagement() {
   const [attendance, setAttendance] = useState<any[]>([]);
   const [classes, setClasses] = useState<any[]>([]);
-  const [selectedClass, setSelectedClass] = useState("");
+  const [selectedClass, setSelectedClass] = useState("all");
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
   const [loading, setLoading] = useState(true);
 
@@ -20,7 +20,7 @@ export default function AttendanceManagement() {
   const fetchAttendance = async () => {
     setLoading(true);
     let query = supabase.from("attendance").select("*, students(*, profiles(*)), classes(*)").eq("date", selectedDate);
-    if (selectedClass) query = query.eq("class_id", selectedClass);
+    if (selectedClass && selectedClass !== "all") query = query.eq("class_id", selectedClass);
     const { data } = await query;
     if (data) setAttendance(data);
     setLoading(false);
@@ -38,7 +38,7 @@ export default function AttendanceManagement() {
           <Input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} className="w-44" />
           <Select value={selectedClass} onValueChange={setSelectedClass}>
             <SelectTrigger className="w-44"><SelectValue placeholder="All Classes" /></SelectTrigger>
-            <SelectContent><SelectItem value="">All Classes</SelectItem>{classes.map((c) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}</SelectContent>
+            <SelectContent><SelectItem value="all">All Classes</SelectItem>{classes.map((c) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}</SelectContent>
           </Select>
         </div>
       </div>

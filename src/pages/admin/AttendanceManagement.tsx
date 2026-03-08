@@ -10,7 +10,7 @@ import { UserCheck, Users, AlertCircle, Calendar } from "lucide-react";
 export default function AttendanceManagement() {
   const [attendance, setAttendance] = useState<any[]>([]);
   const [classes, setClasses] = useState<any[]>([]);
-  const [selectedClass, setSelectedClass] = useState("");
+  const [selectedClass, setSelectedClass] = useState("all");
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
   const [loading, setLoading] = useState(true);
 

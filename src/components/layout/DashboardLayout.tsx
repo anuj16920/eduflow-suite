@@ -5,7 +5,7 @@ import { DashboardHeader } from "./DashboardHeader";
 import { cn } from "@/lib/utils";
 
 interface DashboardLayoutProps {
-  role: "admin" | "teacher" | "parent";
+  role: "admin" | "teacher" | "student" | "parent";
   user: {
     name: string;
     email: string;

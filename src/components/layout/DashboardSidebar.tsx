@@ -54,10 +54,21 @@ const parentLinks = [
   { label: "Messages", href: "/parent/messages", icon: MessageSquare },
 ];
 
+const studentLinks = [
+  { label: "Dashboard", href: "/student", icon: LayoutDashboard },
+  { label: "Timetable", href: "/student/timetable", icon: BookOpen },
+  { label: "Attendance", href: "/student/attendance", icon: Users },
+  { label: "Homework", href: "/student/homework", icon: GraduationCap },
+  { label: "Results", href: "/student/results", icon: BarChart3 },
+  { label: "Fees", href: "/student/fees", icon: CreditCard },
+  { label: "Profile", href: "/student/profile", icon: UserCircle },
+];
+
 const roleLinks = {
   admin: adminLinks,
   teacher: teacherLinks,
   parent: parentLinks,
+  student: studentLinks,
 };
 
 export function DashboardSidebar({ collapsed, onToggle, role }: DashboardSidebarProps) {

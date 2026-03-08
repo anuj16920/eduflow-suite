@@ -114,6 +114,48 @@ export type Database = {
           },
         ]
       }
+      cafeteria_menu: {
+        Row: {
+          calories: number | null
+          created_at: string
+          day_of_week: number
+          description: string | null
+          food_name: string
+          id: string
+          image_url: string | null
+          ingredients: string | null
+          is_available: boolean | null
+          is_vegetarian: boolean | null
+          meal_category: string
+        }
+        Insert: {
+          calories?: number | null
+          created_at?: string
+          day_of_week: number
+          description?: string | null
+          food_name: string
+          id?: string
+          image_url?: string | null
+          ingredients?: string | null
+          is_available?: boolean | null
+          is_vegetarian?: boolean | null
+          meal_category?: string
+        }
+        Update: {
+          calories?: number | null
+          created_at?: string
+          day_of_week?: number
+          description?: string | null
+          food_name?: string
+          id?: string
+          image_url?: string | null
+          ingredients?: string | null
+          is_available?: boolean | null
+          is_vegetarian?: boolean | null
+          meal_category?: string
+        }
+        Relationships: []
+      }
       classes: {
         Row: {
           academic_year: string

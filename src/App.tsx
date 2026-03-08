@@ -131,6 +131,7 @@ const App = () => (
                 <Route path="/admin/elearning" element={<ELearningManagement />} />
                 <Route path="/admin/attendance" element={<AttendanceManagement />} />
                 <Route path="/admin/attendance/calendar" element={<StudentAttendanceCalendarPage />} />
+                <Route path="/admin/attendance/face-scan" element={<FaceAttendancePage />} />
                 <Route path="/admin/reports" element={<ReportsAnalytics />} />
                 <Route path="/admin/settings" element={<SettingsPage />} />
               </Route>

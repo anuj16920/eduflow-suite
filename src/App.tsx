@@ -39,6 +39,7 @@ import AddStudentPage from "./pages/admin/AddStudentPage";
 import StudentAttendanceCalendarPage from "./pages/admin/StudentAttendanceCalendarPage";
 import FaceAttendancePage from "./pages/admin/FaceAttendancePage";
 import ExamSchedulePage from "./pages/admin/ExamSchedulePage";
+import StudentReportCardPage from "./pages/admin/StudentReportCardPage";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
@@ -135,6 +136,7 @@ const App = () => (
                 <Route path="/admin/attendance/calendar" element={<StudentAttendanceCalendarPage />} />
                 <Route path="/admin/attendance/face-scan" element={<FaceAttendancePage />} />
                 <Route path="/admin/reports" element={<ReportsAnalytics />} />
+                <Route path="/admin/reports/report-card" element={<StudentReportCardPage />} />
                 <Route path="/admin/settings" element={<SettingsPage />} />
               </Route>
 

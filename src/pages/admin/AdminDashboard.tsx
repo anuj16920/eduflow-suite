@@ -49,7 +49,8 @@ export default function AdminDashboard() {
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat) => (
+        <KPIStudentCard role="admin" />
+        {stats.filter(s => s.title !== "Total Students").map((stat) => (
           <StatsCard key={stat.title} {...stat} />
         ))}
       </div>

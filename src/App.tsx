@@ -41,6 +41,7 @@ import FaceAttendancePage from "./pages/admin/FaceAttendancePage";
 import ExamSchedulePage from "./pages/admin/ExamSchedulePage";
 import StudentReportCardPage from "./pages/admin/StudentReportCardPage";
 import StudentFeeStatusPage from "./pages/admin/StudentFeeStatusPage";
+import HomeworkViewerPage from "./pages/admin/HomeworkViewerPage";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
@@ -133,6 +134,7 @@ const App = () => (
                 <Route path="/admin/cafeteria" element={<CafeteriaManagement />} />
                 <Route path="/admin/communication" element={<CommunicationCenter />} />
                 <Route path="/admin/homework" element={<AcademicsManagement />} />
+                <Route path="/admin/homework/viewer" element={<HomeworkViewerPage />} />
                 <Route path="/admin/elearning" element={<ELearningManagement />} />
                 <Route path="/admin/attendance" element={<AttendanceManagement />} />
                 <Route path="/admin/attendance/calendar" element={<StudentAttendanceCalendarPage />} />

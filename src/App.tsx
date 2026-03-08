@@ -40,6 +40,7 @@ import StudentAttendanceCalendarPage from "./pages/admin/StudentAttendanceCalend
 import FaceAttendancePage from "./pages/admin/FaceAttendancePage";
 import ExamSchedulePage from "./pages/admin/ExamSchedulePage";
 import StudentReportCardPage from "./pages/admin/StudentReportCardPage";
+import StudentFeeStatusPage from "./pages/admin/StudentFeeStatusPage";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";

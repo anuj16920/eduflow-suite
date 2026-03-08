@@ -74,7 +74,14 @@ const roleLinks = {
 
 export function DashboardSidebar({ collapsed, onToggle, role }: DashboardSidebarProps) {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { signOut } = useAuth();
   const links = roleLinks[role];
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate("/login");
+  };
 
   return (
     <aside

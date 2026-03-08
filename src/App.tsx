@@ -43,6 +43,7 @@ import StudentReportCardPage from "./pages/admin/StudentReportCardPage";
 import StudentFeeStatusPage from "./pages/admin/StudentFeeStatusPage";
 import HomeworkViewerPage from "./pages/admin/HomeworkViewerPage";
 import ELearningViewerPage from "./pages/admin/ELearningViewerPage";
+import AnnouncementsBoardPage from "./pages/admin/AnnouncementsBoardPage";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
@@ -134,6 +135,7 @@ const App = () => (
                 <Route path="/admin/transport" element={<TransportManagement />} />
                 <Route path="/admin/cafeteria" element={<CafeteriaManagement />} />
                 <Route path="/admin/communication" element={<CommunicationCenter />} />
+                <Route path="/admin/announcements" element={<AnnouncementsBoardPage />} />
                 <Route path="/admin/homework" element={<AcademicsManagement />} />
                 <Route path="/admin/homework/viewer" element={<HomeworkViewerPage />} />
                 <Route path="/admin/elearning" element={<ELearningManagement />} />

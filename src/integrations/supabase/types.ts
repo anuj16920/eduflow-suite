@@ -829,6 +829,39 @@ export type Database = {
         }
         Relationships: []
       }
+      role_permissions: {
+        Row: {
+          can_create: boolean | null
+          can_delete: boolean | null
+          can_edit: boolean | null
+          can_view: boolean | null
+          id: string
+          module: string
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          can_create?: boolean | null
+          can_delete?: boolean | null
+          can_edit?: boolean | null
+          can_view?: boolean | null
+          id?: string
+          module: string
+          role: string
+          updated_at?: string
+        }
+        Update: {
+          can_create?: boolean | null
+          can_delete?: boolean | null
+          can_edit?: boolean | null
+          can_view?: boolean | null
+          id?: string
+          module?: string
+          role?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       student_transport: {
         Row: {
           id: string

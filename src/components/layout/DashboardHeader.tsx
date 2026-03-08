@@ -1,7 +1,8 @@
-import { Bell, Search, Menu } from "lucide-react";
+import { Bell, Search, Menu, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Input } from "@/components/ui/input";
+import { PortalSwitcher } from "./PortalSwitcher";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +13,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 interface DashboardHeaderProps {
   sidebarCollapsed: boolean;
@@ -26,6 +29,8 @@ interface DashboardHeaderProps {
 }
 
 export function DashboardHeader({ sidebarCollapsed, onMenuClick, user }: DashboardHeaderProps) {
+  const { signOut } = useAuth();
+
   return (
     <header
       className={cn(
@@ -35,7 +40,7 @@ export function DashboardHeader({ sidebarCollapsed, onMenuClick, user }: Dashboa
     >
       <div className="flex h-full items-center justify-between px-4 md:px-6">
         {/* Left Section */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <Button
             variant="ghost"
             size="icon"
@@ -49,20 +54,40 @@ export function DashboardHeader({ sidebarCollapsed, onMenuClick, user }: Dashboa
           <div className="hidden md:flex relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search..."
-              className="w-64 pl-9 bg-muted/50 border-0 focus-visible:ring-1"
+              placeholder="Search anything..."
+              className="w-72 pl-9 bg-muted/50 border-0 focus-visible:ring-1"
             />
           </div>
         </div>
 
         {/* Right Section */}
         <div className="flex items-center gap-2">
+          {/* Quick Actions */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon" className="h-9 w-9 hidden sm:flex">
+                <Plus className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Add Student</DropdownMenuItem>
+              <DropdownMenuItem>Create Announcement</DropdownMenuItem>
+              <DropdownMenuItem>Schedule Meeting</DropdownMenuItem>
+              <DropdownMenuItem>Generate Report</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Portal Switcher */}
+          <PortalSwitcher currentRole={user.role} />
+
           <ThemeToggle />
 
           {/* Notifications */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="relative">
+              <Button variant="ghost" size="icon" className="relative h-9 w-9">
                 <Bell className="h-5 w-5" />
                 <span className="absolute -top-0.5 -right-0.5 h-4 w-4 rounded-full bg-destructive text-[10px] font-medium text-destructive-foreground flex items-center justify-center">
                   3
@@ -70,19 +95,26 @@ export function DashboardHeader({ sidebarCollapsed, onMenuClick, user }: Dashboa
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-80">
-              <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+              <DropdownMenuLabel className="flex items-center justify-between">
+                Notifications
+                <Button variant="ghost" size="sm" className="h-auto p-0 text-xs text-primary">Mark all read</Button>
+              </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="flex flex-col items-start gap-1 p-3">
                 <span className="font-medium text-sm">New student enrolled</span>
-                <span className="text-xs text-muted-foreground">John Doe joined Class 10-A</span>
+                <span className="text-xs text-muted-foreground">John Doe joined Class 10-A • 2m ago</span>
               </DropdownMenuItem>
               <DropdownMenuItem className="flex flex-col items-start gap-1 p-3">
                 <span className="font-medium text-sm">Fee payment received</span>
-                <span className="text-xs text-muted-foreground">₹15,000 from Sarah Smith</span>
+                <span className="text-xs text-muted-foreground">₹15,000 from Sarah Smith • 15m ago</span>
               </DropdownMenuItem>
               <DropdownMenuItem className="flex flex-col items-start gap-1 p-3">
                 <span className="font-medium text-sm">Leave request pending</span>
-                <span className="text-xs text-muted-foreground">Mr. Johnson requested 2 days leave</span>
+                <span className="text-xs text-muted-foreground">Mr. Johnson requested 2 days • 1h ago</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="text-center text-primary text-sm justify-center">
+                View all notifications
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -90,7 +122,7 @@ export function DashboardHeader({ sidebarCollapsed, onMenuClick, user }: Dashboa
           {/* Profile */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="flex items-center gap-2 px-2">
+              <Button variant="ghost" className="flex items-center gap-2 px-2 h-9">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={user.avatar} />
                   <AvatarFallback className="bg-primary text-primary-foreground text-xs">
@@ -98,8 +130,8 @@ export function DashboardHeader({ sidebarCollapsed, onMenuClick, user }: Dashboa
                   </AvatarFallback>
                 </Avatar>
                 <div className="hidden md:flex flex-col items-start">
-                  <span className="text-sm font-medium">{user.name}</span>
-                  <span className="text-xs text-muted-foreground capitalize">{user.role}</span>
+                  <span className="text-sm font-medium leading-tight">{user.name}</span>
+                  <span className="text-[11px] text-muted-foreground capitalize">{user.role}</span>
                 </div>
               </Button>
             </DropdownMenuTrigger>
@@ -108,11 +140,13 @@ export function DashboardHeader({ sidebarCollapsed, onMenuClick, user }: Dashboa
               <DropdownMenuSeparator />
               <DropdownMenuItem>Profile Settings</DropdownMenuItem>
               <DropdownMenuItem>Preferences</DropdownMenuItem>
+              <DropdownMenuItem>Help & Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link to="/login" className="w-full text-destructive">
-                  Logout
-                </Link>
+              <DropdownMenuItem
+                onClick={async () => { await signOut(); }}
+                className="text-destructive focus:text-destructive"
+              >
+                Logout
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

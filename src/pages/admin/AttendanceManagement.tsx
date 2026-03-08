@@ -38,7 +38,7 @@ export default function AttendanceManagement() {
           <Input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} className="w-44" />
           <Select value={selectedClass} onValueChange={setSelectedClass}>
             <SelectTrigger className="w-44"><SelectValue placeholder="All Classes" /></SelectTrigger>
-            <SelectContent><SelectItem value="">All Classes</SelectItem>{classes.map((c) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}</SelectContent>
+            <SelectContent><SelectItem value="all">All Classes</SelectItem>{classes.map((c) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}</SelectContent>
           </Select>
         </div>
       </div>

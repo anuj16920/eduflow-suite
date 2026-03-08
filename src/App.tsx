@@ -43,6 +43,7 @@ import StudentReportCardPage from "./pages/admin/StudentReportCardPage";
 import StudentFeeStatusPage from "./pages/admin/StudentFeeStatusPage";
 import HomeworkViewerPage from "./pages/admin/HomeworkViewerPage";
 import ELearningViewerPage from "./pages/admin/ELearningViewerPage";
+import AnnouncementsBoardPage from "./pages/admin/AnnouncementsBoardPage";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";

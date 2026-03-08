@@ -51,6 +51,7 @@ import CafeteriaMenuViewerPage from "./pages/admin/CafeteriaMenuViewerPage";
 import HostelRoomViewerPage from "./pages/admin/HostelRoomViewerPage";
 import RolesPermissionsPage from "./pages/admin/RolesPermissionsPage";
 import InstitutionAnalyticsPage from "./pages/admin/InstitutionAnalyticsPage";
+import ActivityLogsPage from "./pages/admin/ActivityLogsPage";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";

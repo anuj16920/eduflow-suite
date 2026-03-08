@@ -146,16 +146,16 @@ export function DashboardSidebar({ collapsed, onToggle, role }: DashboardSidebar
 
       {/* Logout */}
       <div className="border-t border-sidebar-border p-3">
-        <Link
-          to="/login"
+        <button
+          onClick={handleLogout}
           className={cn(
-            "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors",
+            "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors w-full",
             collapsed && "justify-center px-2"
           )}
         >
           <LogOut className="h-5 w-5 flex-shrink-0" />
           {!collapsed && <span>Logout</span>}
-        </Link>
+        </button>
       </div>
     </aside>
   );

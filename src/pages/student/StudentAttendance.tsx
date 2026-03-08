@@ -5,10 +5,10 @@ import { ClipboardCheck, UserCheck, UserX, Clock } from "lucide-react";
 import { motion } from "framer-motion";
 
 const stats = [
-  { title: "Total Days", value: "180", change: "Academic year", icon: ClipboardCheck },
-  { title: "Present", value: "166", change: "92.2%", icon: UserCheck },
-  { title: "Absent", value: "10", change: "5.6%", icon: UserX },
-  { title: "Late", value: "4", change: "2.2%", icon: Clock },
+  { title: "Total Days", value: "180", change: { value: "Academic year", positive: true }, icon: ClipboardCheck },
+  { title: "Present", value: "166", change: { value: "92.2%", positive: true }, icon: UserCheck },
+  { title: "Absent", value: "10", change: { value: "5.6%", positive: false }, icon: UserX },
+  { title: "Late", value: "4", change: { value: "2.2%", positive: false }, icon: Clock },
 ];
 
 const recentAttendance = [

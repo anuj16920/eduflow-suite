@@ -5,10 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { BookOpen, Calendar, ClipboardCheck, CreditCard, Bell, Clock } from "lucide-react";
 
 const stats = [
-  { title: "Attendance", value: "92%", change: "+2%", icon: ClipboardCheck },
-  { title: "Pending Homework", value: "3", change: "Due soon", icon: BookOpen },
-  { title: "Upcoming Exams", value: "2", change: "This week", icon: Calendar },
-  { title: "Fee Status", value: "Paid", change: "Up to date", icon: CreditCard },
+  { title: "Attendance", value: "92%", change: { value: "+2%", positive: true }, icon: ClipboardCheck },
+  { title: "Pending Homework", value: "3", change: { value: "Due soon", positive: false }, icon: BookOpen },
+  { title: "Upcoming Exams", value: "2", change: { value: "This week", positive: true }, icon: Calendar },
+  { title: "Fee Status", value: "Paid", change: { value: "Up to date", positive: true }, icon: CreditCard },
 ];
 
 const upcomingClasses = [

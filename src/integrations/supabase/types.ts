@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_logs: {
+        Row: {
+          action: string
+          created_at: string
+          description: string | null
+          device_info: string | null
+          id: string
+          ip_address: string | null
+          metadata: Json | null
+          module: string
+          user_id: string | null
+          user_name: string
+          user_role: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          description?: string | null
+          device_info?: string | null
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          module?: string
+          user_id?: string | null
+          user_name?: string
+          user_role?: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          description?: string | null
+          device_info?: string | null
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          module?: string
+          user_id?: string | null
+          user_name?: string
+          user_role?: string
+        }
+        Relationships: []
+      }
       announcements: {
         Row: {
           attachment_url: string | null

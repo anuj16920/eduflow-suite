@@ -48,6 +48,7 @@ import PTMSchedulerPage from "./pages/admin/PTMSchedulerPage";
 import TimetableViewerPage from "./pages/admin/TimetableViewerPage";
 import TransportRouteViewerPage from "./pages/admin/TransportRouteViewerPage";
 import CafeteriaMenuViewerPage from "./pages/admin/CafeteriaMenuViewerPage";
+import HostelRoomViewerPage from "./pages/admin/HostelRoomViewerPage";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";

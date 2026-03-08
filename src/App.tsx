@@ -139,6 +139,7 @@ const App = () => (
                 <Route path="/admin/transport" element={<TransportManagement />} />
                 <Route path="/admin/transport/routes" element={<TransportRouteViewerPage />} />
                 <Route path="/admin/cafeteria" element={<CafeteriaManagement />} />
+                <Route path="/admin/cafeteria/menu" element={<CafeteriaMenuViewerPage />} />
                 <Route path="/admin/communication" element={<CommunicationCenter />} />
                 <Route path="/admin/announcements" element={<AnnouncementsBoardPage />} />
                 <Route path="/admin/ptm" element={<PTMSchedulerPage />} />

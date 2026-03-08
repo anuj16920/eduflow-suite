@@ -46,6 +46,7 @@ import ELearningViewerPage from "./pages/admin/ELearningViewerPage";
 import AnnouncementsBoardPage from "./pages/admin/AnnouncementsBoardPage";
 import PTMSchedulerPage from "./pages/admin/PTMSchedulerPage";
 import TimetableViewerPage from "./pages/admin/TimetableViewerPage";
+import TransportRouteViewerPage from "./pages/admin/TransportRouteViewerPage";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
@@ -135,6 +136,7 @@ const App = () => (
                 <Route path="/admin/fees/student" element={<StudentFeeStatusPage />} />
                 <Route path="/admin/hostel" element={<HostelManagement />} />
                 <Route path="/admin/transport" element={<TransportManagement />} />
+                <Route path="/admin/transport/routes" element={<TransportRouteViewerPage />} />
                 <Route path="/admin/cafeteria" element={<CafeteriaManagement />} />
                 <Route path="/admin/communication" element={<CommunicationCenter />} />
                 <Route path="/admin/announcements" element={<AnnouncementsBoardPage />} />

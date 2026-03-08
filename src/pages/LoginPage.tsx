@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,12 +21,19 @@ const roleConfig = {
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { signIn } = useAuth();
+  const { signIn, user, role, loading: authLoading } = useAuth();
   const { toast } = useToast();
   const [selectedRole, setSelectedRole] = useState<Role>("admin");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
+
+  // Redirect when user is authenticated
+  useEffect(() => {
+    if (user && role && !authLoading) {
+      navigate(`/${role}`, { replace: true });
+    }
+  }, [user, role, authLoading, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,7 +43,6 @@ export default function LoginPage() {
     if (error) {
       toast({ title: "Login failed", description: error.message, variant: "destructive" });
     }
-    // Auth state change will redirect via App.tsx
   };
 
   return (

@@ -36,6 +36,7 @@ import ELearningManagement from "./pages/admin/ELearningManagement";
 import AttendanceManagement from "./pages/admin/AttendanceManagement";
 import StudentProfilePage from "./pages/admin/StudentProfilePage";
 import AddStudentPage from "./pages/admin/AddStudentPage";
+import StudentAttendanceCalendarPage from "./pages/admin/StudentAttendanceCalendarPage";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
@@ -128,6 +129,7 @@ const App = () => (
                 <Route path="/admin/homework" element={<AcademicsManagement />} />
                 <Route path="/admin/elearning" element={<ELearningManagement />} />
                 <Route path="/admin/attendance" element={<AttendanceManagement />} />
+                <Route path="/admin/attendance/calendar" element={<StudentAttendanceCalendarPage />} />
                 <Route path="/admin/reports" element={<ReportsAnalytics />} />
                 <Route path="/admin/settings" element={<SettingsPage />} />
               </Route>

@@ -35,6 +35,7 @@ import CafeteriaManagement from "./pages/admin/CafeteriaManagement";
 import ELearningManagement from "./pages/admin/ELearningManagement";
 import AttendanceManagement from "./pages/admin/AttendanceManagement";
 import StudentProfilePage from "./pages/admin/StudentProfilePage";
+import AddStudentPage from "./pages/admin/AddStudentPage";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
@@ -110,6 +111,7 @@ const App = () => (
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/admin/teachers" element={<TeachersManagement />} />
                 <Route path="/admin/students" element={<StudentsManagement />} />
+                <Route path="/admin/students/add" element={<AddStudentPage />} />
                 <Route path="/admin/students/admissions" element={<StudentsManagement />} />
                 <Route path="/admin/students/:studentId" element={<StudentProfilePage />} />
                 <Route path="/admin/students/promotions" element={<StudentsManagement />} />

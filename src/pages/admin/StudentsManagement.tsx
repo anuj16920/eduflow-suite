@@ -147,7 +147,7 @@ export default function StudentsManagement() {
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm"><Upload className="h-4 w-4 mr-2" />Import</Button>
             <Button variant="outline" size="sm"><Download className="h-4 w-4 mr-2" />Export</Button>
-            <Button className="gradient-primary border-0 text-primary-foreground hover:opacity-90" size="sm">
+            <Button className="gradient-primary border-0 text-primary-foreground hover:opacity-90" size="sm" onClick={() => navigate("/admin/students/add")}>
               <Plus className="h-4 w-4 mr-2" />Add Student
             </Button>
           </div>

@@ -20,7 +20,7 @@ export default function AttendanceManagement() {
   const fetchAttendance = async () => {
     setLoading(true);
     let query = supabase.from("attendance").select("*, students(*, profiles(*)), classes(*)").eq("date", selectedDate);
-    if (selectedClass) query = query.eq("class_id", selectedClass);
+    if (selectedClass && selectedClass !== "all") query = query.eq("class_id", selectedClass);
     const { data } = await query;
     if (data) setAttendance(data);
     setLoading(false);

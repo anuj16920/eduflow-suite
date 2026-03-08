@@ -49,6 +49,7 @@ import TimetableViewerPage from "./pages/admin/TimetableViewerPage";
 import TransportRouteViewerPage from "./pages/admin/TransportRouteViewerPage";
 import CafeteriaMenuViewerPage from "./pages/admin/CafeteriaMenuViewerPage";
 import HostelRoomViewerPage from "./pages/admin/HostelRoomViewerPage";
+import RolesPermissionsPage from "./pages/admin/RolesPermissionsPage";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";

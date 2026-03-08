@@ -38,6 +38,7 @@ import StudentProfilePage from "./pages/admin/StudentProfilePage";
 import AddStudentPage from "./pages/admin/AddStudentPage";
 import StudentAttendanceCalendarPage from "./pages/admin/StudentAttendanceCalendarPage";
 import FaceAttendancePage from "./pages/admin/FaceAttendancePage";
+import ExamSchedulePage from "./pages/admin/ExamSchedulePage";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";

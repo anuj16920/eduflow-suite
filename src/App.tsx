@@ -42,6 +42,7 @@ import ExamSchedulePage from "./pages/admin/ExamSchedulePage";
 import StudentReportCardPage from "./pages/admin/StudentReportCardPage";
 import StudentFeeStatusPage from "./pages/admin/StudentFeeStatusPage";
 import HomeworkViewerPage from "./pages/admin/HomeworkViewerPage";
+import ELearningViewerPage from "./pages/admin/ELearningViewerPage";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";

@@ -99,7 +99,7 @@ export default function RolesPermissionsPage() {
 
   const openDrawer = useCallback(async (role: string) => {
     setDrawerRole(role);
-    const { data } = await supabase.from("profiles").select("id, full_name, email").eq("role", role).limit(50);
+    const { data } = await supabase.from("profiles").select("id, full_name, email").eq("role", role as any).limit(50);
     setDrawerUsers((data || []).map((u: any) => ({ id: u.id, fullName: u.full_name, email: u.email })));
   }, []);
 

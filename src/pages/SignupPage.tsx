@@ -39,7 +39,7 @@ export default function SignupPage() {
     if (error) {
       toast({ title: "Signup failed", description: error.message, variant: "destructive" });
     } else {
-      toast({ title: "Check your email", description: "We sent you a verification link. Please verify your email to continue." });
+      toast({ title: "Account created!", description: "Welcome to EduCore." });
     }
   };
 

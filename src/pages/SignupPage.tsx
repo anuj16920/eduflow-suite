@@ -20,12 +20,19 @@ const roleConfig = {
 };
 
 export default function SignupPage() {
-  const { signUp } = useAuth();
+  const navigate = useNavigate();
+  const { signUp, user, role, loading: authLoading } = useAuth();
   const { toast } = useToast();
   const [selectedRole, setSelectedRole] = useState<Role>("student");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({ fullName: "", email: "", password: "" });
+
+  useEffect(() => {
+    if (user && role && !authLoading) {
+      navigate(`/${role}`, { replace: true });
+    }
+  }, [user, role, authLoading, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

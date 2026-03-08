@@ -6,21 +6,18 @@ import {
   Award,
   Shield,
   Palette,
-  Upload,
   Save,
   Bell,
   Globe,
-  Lock,
-  Users,
   Mail,
   MessageSquare,
   CreditCard,
   FileText,
+  Users,
 } from "lucide-react";
 import { SimpleCard } from "@/components/dashboard/StatsCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -34,16 +31,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
-
-interface SchoolProfile {
-  name: string;
-  address: string;
-  phone: string;
-  email: string;
-  website: string;
-  principalName: string;
-  establishedYear: string;
-}
+import { InstitutionSettingsForm, BrandingSettingsPanel, PlatformPreferencesPanel } from "@/components/settings";
 
 interface AcademicSettings {
   currentSession: string;
@@ -67,16 +55,6 @@ interface Role {
 export default function SettingsPage() {
   const { toast } = useToast();
 
-  const [schoolProfile, setSchoolProfile] = useState<SchoolProfile>({
-    name: "",
-    address: "",
-    phone: "",
-    email: "",
-    website: "",
-    principalName: "",
-    establishedYear: "",
-  });
-
   const [academicSettings, setAcademicSettings] = useState<AcademicSettings>({
     currentSession: "2024-25",
     startMonth: "April",
@@ -98,7 +76,7 @@ export default function SettingsPage() {
     ],
   });
 
-  const [roles, setRoles] = useState<Role[]>([
+  const [roles] = useState<Role[]>([
     { id: "1", name: "Super Admin", permissions: ["all"] },
     { id: "2", name: "Admin", permissions: ["manage_students", "manage_teachers", "manage_fees", "view_reports"] },
     { id: "3", name: "Teacher", permissions: ["view_students", "mark_attendance", "upload_marks"] },
@@ -113,55 +91,53 @@ export default function SettingsPage() {
     examNotifications: true,
   });
 
-  const handleSaveProfile = () => {
-    toast({
-      title: "Success",
-      description: "School profile saved successfully",
-    });
-  };
-
   const handleSaveAcademic = () => {
-    toast({
-      title: "Success",
-      description: "Academic settings saved successfully",
-    });
+    toast({ title: "Success", description: "Academic settings saved successfully" });
   };
 
   const handleSaveGrading = () => {
-    toast({
-      title: "Success",
-      description: "Grading settings saved successfully",
-    });
+    toast({ title: "Success", description: "Grading settings saved successfully" });
   };
 
   const handleSaveNotifications = () => {
-    toast({
-      title: "Success",
-      description: "Notification settings saved successfully",
-    });
+    toast({ title: "Success", description: "Notification settings saved successfully" });
   };
 
   const months = [
     "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+    "July", "August", "September", "October", "November", "December",
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-[1000px] mx-auto">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold">Settings</h1>
-          <p className="text-muted-foreground">Manage school settings and configurations</p>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
+            <span>Dashboard</span><span>/</span><span>Settings</span><span>/</span>
+            <span className="text-foreground font-medium">System</span>
+          </div>
+          <h1 className="text-3xl font-bold flex items-center gap-3">
+            <Settings className="h-8 w-8 text-primary" />
+            System Settings
+          </h1>
         </div>
       </div>
 
       {/* Tabs */}
-      <Tabs defaultValue="profile" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 lg:w-auto">
-          <TabsTrigger value="profile" className="gap-2">
+      <Tabs defaultValue="institution" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-3 lg:grid-cols-7 lg:w-auto">
+          <TabsTrigger value="institution" className="gap-2">
             <School className="h-4 w-4" />
-            <span className="hidden sm:inline">School Profile</span>
+            <span className="hidden sm:inline">Institution</span>
+          </TabsTrigger>
+          <TabsTrigger value="branding" className="gap-2">
+            <Palette className="h-4 w-4" />
+            <span className="hidden sm:inline">Branding</span>
+          </TabsTrigger>
+          <TabsTrigger value="preferences" className="gap-2">
+            <Globe className="h-4 w-4" />
+            <span className="hidden sm:inline">Preferences</span>
           </TabsTrigger>
           <TabsTrigger value="academic" className="gap-2">
             <Calendar className="h-4 w-4" />
@@ -181,96 +157,19 @@ export default function SettingsPage() {
           </TabsTrigger>
         </TabsList>
 
-        {/* School Profile Tab */}
-        <TabsContent value="profile">
-          <SimpleCard title="School Profile" description="Basic information about your school">
-            <div className="grid gap-6">
-              {/* Logo Upload */}
-              <div className="flex items-center gap-6">
-                <div className="h-24 w-24 rounded-xl border-2 border-dashed flex items-center justify-center bg-muted/50">
-                  <Upload className="h-8 w-8 text-muted-foreground" />
-                </div>
-                <div>
-                  <Button variant="outline" size="sm">
-                    <Upload className="h-4 w-4 mr-2" />
-                    Upload Logo
-                  </Button>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    PNG, JPG up to 2MB. Recommended: 200x200px
-                  </p>
-                </div>
-              </div>
+        {/* Institution Tab */}
+        <TabsContent value="institution">
+          <InstitutionSettingsForm />
+        </TabsContent>
 
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="grid gap-2">
-                  <Label>School Name</Label>
-                  <Input
-                    value={schoolProfile.name}
-                    onChange={(e) => setSchoolProfile({ ...schoolProfile, name: e.target.value })}
-                    placeholder="Enter school name"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label>Principal Name</Label>
-                  <Input
-                    value={schoolProfile.principalName}
-                    onChange={(e) => setSchoolProfile({ ...schoolProfile, principalName: e.target.value })}
-                    placeholder="Enter principal name"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label>Email</Label>
-                  <Input
-                    type="email"
-                    value={schoolProfile.email}
-                    onChange={(e) => setSchoolProfile({ ...schoolProfile, email: e.target.value })}
-                    placeholder="school@email.com"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label>Phone</Label>
-                  <Input
-                    value={schoolProfile.phone}
-                    onChange={(e) => setSchoolProfile({ ...schoolProfile, phone: e.target.value })}
-                    placeholder="+91 XXXXX XXXXX"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label>Website</Label>
-                  <Input
-                    value={schoolProfile.website}
-                    onChange={(e) => setSchoolProfile({ ...schoolProfile, website: e.target.value })}
-                    placeholder="https://www.school.edu"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label>Established Year</Label>
-                  <Input
-                    value={schoolProfile.establishedYear}
-                    onChange={(e) => setSchoolProfile({ ...schoolProfile, establishedYear: e.target.value })}
-                    placeholder="e.g., 1990"
-                  />
-                </div>
-              </div>
+        {/* Branding Tab */}
+        <TabsContent value="branding">
+          <BrandingSettingsPanel />
+        </TabsContent>
 
-              <div className="grid gap-2">
-                <Label>Address</Label>
-                <Textarea
-                  value={schoolProfile.address}
-                  onChange={(e) => setSchoolProfile({ ...schoolProfile, address: e.target.value })}
-                  placeholder="Enter complete address"
-                  rows={3}
-                />
-              </div>
-
-              <div className="flex justify-end">
-                <Button onClick={handleSaveProfile} className="gradient-primary border-0">
-                  <Save className="h-4 w-4 mr-2" />
-                  Save Changes
-                </Button>
-              </div>
-            </div>
-          </SimpleCard>
+        {/* Preferences Tab */}
+        <TabsContent value="preferences">
+          <PlatformPreferencesPanel />
         </TabsContent>
 
         {/* Academic Tab */}
@@ -280,13 +179,8 @@ export default function SettingsPage() {
               <div className="grid gap-4 md:grid-cols-3">
                 <div className="grid gap-2">
                   <Label>Current Session</Label>
-                  <Select
-                    value={academicSettings.currentSession}
-                    onValueChange={(v) => setAcademicSettings({ ...academicSettings, currentSession: v })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
+                  <Select value={academicSettings.currentSession} onValueChange={(v) => setAcademicSettings({ ...academicSettings, currentSession: v })}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="2023-24">2023-24</SelectItem>
                       <SelectItem value="2024-25">2024-25</SelectItem>
@@ -296,38 +190,23 @@ export default function SettingsPage() {
                 </div>
                 <div className="grid gap-2">
                   <Label>Session Start Month</Label>
-                  <Select
-                    value={academicSettings.startMonth}
-                    onValueChange={(v) => setAcademicSettings({ ...academicSettings, startMonth: v })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
+                  <Select value={academicSettings.startMonth} onValueChange={(v) => setAcademicSettings({ ...academicSettings, startMonth: v })}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      {months.map((month) => (
-                        <SelectItem key={month} value={month}>{month}</SelectItem>
-                      ))}
+                      {months.map((month) => <SelectItem key={month} value={month}>{month}</SelectItem>)}
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="grid gap-2">
                   <Label>Session End Month</Label>
-                  <Select
-                    value={academicSettings.endMonth}
-                    onValueChange={(v) => setAcademicSettings({ ...academicSettings, endMonth: v })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
+                  <Select value={academicSettings.endMonth} onValueChange={(v) => setAcademicSettings({ ...academicSettings, endMonth: v })}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      {months.map((month) => (
-                        <SelectItem key={month} value={month}>{month}</SelectItem>
-                      ))}
+                      {months.map((month) => <SelectItem key={month} value={month}>{month}</SelectItem>)}
                     </SelectContent>
                   </Select>
                 </div>
               </div>
-
               <div className="grid gap-2">
                 <Label>Working Days</Label>
                 <div className="flex flex-wrap gap-2">
@@ -337,17 +216,12 @@ export default function SettingsPage() {
                       variant={academicSettings.workingDays.includes(day) ? "default" : "outline"}
                       className="cursor-pointer"
                       onClick={() => {
-                        if (academicSettings.workingDays.includes(day)) {
-                          setAcademicSettings({
-                            ...academicSettings,
-                            workingDays: academicSettings.workingDays.filter((d) => d !== day),
-                          });
-                        } else {
-                          setAcademicSettings({
-                            ...academicSettings,
-                            workingDays: [...academicSettings.workingDays, day],
-                          });
-                        }
+                        setAcademicSettings({
+                          ...academicSettings,
+                          workingDays: academicSettings.workingDays.includes(day)
+                            ? academicSettings.workingDays.filter((d) => d !== day)
+                            : [...academicSettings.workingDays, day],
+                        });
                       }}
                     >
                       {day}
@@ -355,11 +229,9 @@ export default function SettingsPage() {
                   ))}
                 </div>
               </div>
-
               <div className="flex justify-end">
-                <Button onClick={handleSaveAcademic} className="gradient-primary border-0">
-                  <Save className="h-4 w-4 mr-2" />
-                  Save Changes
+                <Button onClick={handleSaveAcademic} className="gradient-primary border-0 text-primary-foreground rounded-xl">
+                  <Save className="h-4 w-4 mr-2" />Save Changes
                 </Button>
               </div>
             </div>
@@ -373,15 +245,8 @@ export default function SettingsPage() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="grid gap-2">
                   <Label>Grading System</Label>
-                  <Select
-                    value={gradingSettings.system}
-                    onValueChange={(v: "percentage" | "grades" | "cgpa") =>
-                      setGradingSettings({ ...gradingSettings, system: v })
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
+                  <Select value={gradingSettings.system} onValueChange={(v: "percentage" | "grades" | "cgpa") => setGradingSettings({ ...gradingSettings, system: v })}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="percentage">Percentage Based</SelectItem>
                       <SelectItem value="grades">Grade Based</SelectItem>
@@ -391,56 +256,30 @@ export default function SettingsPage() {
                 </div>
                 <div className="grid gap-2">
                   <Label>Passing Score (%)</Label>
-                  <Input
-                    type="number"
-                    value={gradingSettings.passingScore}
-                    onChange={(e) =>
-                      setGradingSettings({ ...gradingSettings, passingScore: parseInt(e.target.value) || 0 })
-                    }
-                    min={0}
-                    max={100}
-                  />
+                  <Input type="number" value={gradingSettings.passingScore} onChange={(e) => setGradingSettings({ ...gradingSettings, passingScore: parseInt(e.target.value) || 0 })} min={0} max={100} />
                 </div>
               </div>
-
               <div className="grid gap-2">
                 <Label>Grade Distribution</Label>
                 <div className="rounded-lg border overflow-hidden">
                   <div className="grid grid-cols-4 gap-4 p-3 bg-muted/50 font-medium text-sm">
-                    <span>Grade</span>
-                    <span>Min Score</span>
-                    <span>Max Score</span>
-                    <span>Status</span>
+                    <span>Grade</span><span>Min Score</span><span>Max Score</span><span>Status</span>
                   </div>
                   {gradingSettings.grades.map((grade, index) => (
-                    <motion.div
-                      key={grade.grade}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: index * 0.05 }}
-                      className="grid grid-cols-4 gap-4 p-3 border-t items-center"
-                    >
+                    <motion.div key={grade.grade} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: index * 0.05 }} className="grid grid-cols-4 gap-4 p-3 border-t items-center">
                       <span className="font-semibold">{grade.grade}</span>
                       <span>{grade.minScore}%</span>
                       <span>{grade.maxScore}%</span>
-                      <Badge
-                        className={
-                          grade.minScore >= gradingSettings.passingScore
-                            ? "bg-success/10 text-success"
-                            : "bg-destructive/10 text-destructive"
-                        }
-                      >
+                      <Badge className={grade.minScore >= gradingSettings.passingScore ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive"}>
                         {grade.minScore >= gradingSettings.passingScore ? "Pass" : "Fail"}
                       </Badge>
                     </motion.div>
                   ))}
                 </div>
               </div>
-
               <div className="flex justify-end">
-                <Button onClick={handleSaveGrading} className="gradient-primary border-0">
-                  <Save className="h-4 w-4 mr-2" />
-                  Save Changes
+                <Button onClick={handleSaveGrading} className="gradient-primary border-0 text-primary-foreground rounded-xl">
+                  <Save className="h-4 w-4 mr-2" />Save Changes
                 </Button>
               </div>
             </div>
@@ -452,13 +291,7 @@ export default function SettingsPage() {
           <SimpleCard title="Role Permissions" description="Manage user roles and access">
             <div className="space-y-4">
               {roles.map((role, index) => (
-                <motion.div
-                  key={role.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="p-4 rounded-xl border"
-                >
+                <motion.div key={role.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }} className="p-4 rounded-xl border">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
                       <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -466,22 +299,14 @@ export default function SettingsPage() {
                       </div>
                       <div>
                         <h3 className="font-semibold">{role.name}</h3>
-                        <p className="text-sm text-muted-foreground">
-                          {role.permissions.length} permissions
-                        </p>
+                        <p className="text-sm text-muted-foreground">{role.permissions.length} permissions</p>
                       </div>
                     </div>
-                    {role.name !== "Super Admin" && (
-                      <Button variant="outline" size="sm">
-                        Edit
-                      </Button>
-                    )}
+                    {role.name !== "Super Admin" && <Button variant="outline" size="sm">Edit</Button>}
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {role.permissions.map((perm) => (
-                      <Badge key={perm} variant="secondary" className="text-xs">
-                        {perm.replace(/_/g, " ")}
-                      </Badge>
+                      <Badge key={perm} variant="secondary" className="text-xs">{perm.replace(/_/g, " ")}</Badge>
                     ))}
                   </div>
                 </motion.div>
@@ -495,111 +320,33 @@ export default function SettingsPage() {
           <SimpleCard title="Notification Settings" description="Configure alerts and notifications">
             <div className="space-y-6">
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 rounded-lg border">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <Mail className="h-5 w-5 text-primary" />
+                {[
+                  { key: "emailNotifications", icon: Mail, label: "Email Notifications", desc: "Send notifications via email", color: "primary" },
+                  { key: "smsNotifications", icon: MessageSquare, label: "SMS Notifications", desc: "Send SMS to parents and staff", color: "success" },
+                  { key: "feeReminders", icon: CreditCard, label: "Fee Reminders", desc: "Automatic reminders for pending fees", color: "warning" },
+                  { key: "attendanceAlerts", icon: Users, label: "Attendance Alerts", desc: "Notify parents about absence", color: "accent" },
+                  { key: "examNotifications", icon: FileText, label: "Exam Notifications", desc: "Exam schedule and result alerts", color: "destructive" },
+                ].map(({ key, icon: Icon, label, desc, color }) => (
+                  <div key={key} className="flex items-center justify-between p-4 rounded-lg border">
+                    <div className="flex items-center gap-3">
+                      <div className={`h-10 w-10 rounded-lg bg-${color}/10 flex items-center justify-center`}>
+                        <Icon className={`h-5 w-5 text-${color}`} />
+                      </div>
+                      <div>
+                        <p className="font-medium">{label}</p>
+                        <p className="text-sm text-muted-foreground">{desc}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium">Email Notifications</p>
-                      <p className="text-sm text-muted-foreground">
-                        Send notifications via email
-                      </p>
-                    </div>
+                    <Switch
+                      checked={notifications[key as keyof typeof notifications]}
+                      onCheckedChange={(c) => setNotifications({ ...notifications, [key]: c })}
+                    />
                   </div>
-                  <Switch
-                    checked={notifications.emailNotifications}
-                    onCheckedChange={(c) =>
-                      setNotifications({ ...notifications, emailNotifications: c })
-                    }
-                  />
-                </div>
-
-                <div className="flex items-center justify-between p-4 rounded-lg border">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-lg bg-success/10 flex items-center justify-center">
-                      <MessageSquare className="h-5 w-5 text-success" />
-                    </div>
-                    <div>
-                      <p className="font-medium">SMS Notifications</p>
-                      <p className="text-sm text-muted-foreground">
-                        Send SMS to parents and staff
-                      </p>
-                    </div>
-                  </div>
-                  <Switch
-                    checked={notifications.smsNotifications}
-                    onCheckedChange={(c) =>
-                      setNotifications({ ...notifications, smsNotifications: c })
-                    }
-                  />
-                </div>
-
-                <div className="flex items-center justify-between p-4 rounded-lg border">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-lg bg-warning/10 flex items-center justify-center">
-                      <CreditCard className="h-5 w-5 text-warning" />
-                    </div>
-                    <div>
-                      <p className="font-medium">Fee Reminders</p>
-                      <p className="text-sm text-muted-foreground">
-                        Automatic reminders for pending fees
-                      </p>
-                    </div>
-                  </div>
-                  <Switch
-                    checked={notifications.feeReminders}
-                    onCheckedChange={(c) =>
-                      setNotifications({ ...notifications, feeReminders: c })
-                    }
-                  />
-                </div>
-
-                <div className="flex items-center justify-between p-4 rounded-lg border">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                      <Users className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <p className="font-medium">Attendance Alerts</p>
-                      <p className="text-sm text-muted-foreground">
-                        Notify parents about absence
-                      </p>
-                    </div>
-                  </div>
-                  <Switch
-                    checked={notifications.attendanceAlerts}
-                    onCheckedChange={(c) =>
-                      setNotifications({ ...notifications, attendanceAlerts: c })
-                    }
-                  />
-                </div>
-
-                <div className="flex items-center justify-between p-4 rounded-lg border">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-lg bg-destructive/10 flex items-center justify-center">
-                      <FileText className="h-5 w-5 text-destructive" />
-                    </div>
-                    <div>
-                      <p className="font-medium">Exam Notifications</p>
-                      <p className="text-sm text-muted-foreground">
-                        Exam schedule and result alerts
-                      </p>
-                    </div>
-                  </div>
-                  <Switch
-                    checked={notifications.examNotifications}
-                    onCheckedChange={(c) =>
-                      setNotifications({ ...notifications, examNotifications: c })
-                    }
-                  />
-                </div>
+                ))}
               </div>
-
               <div className="flex justify-end">
-                <Button onClick={handleSaveNotifications} className="gradient-primary border-0">
-                  <Save className="h-4 w-4 mr-2" />
-                  Save Changes
+                <Button onClick={handleSaveNotifications} className="gradient-primary border-0 text-primary-foreground rounded-xl">
+                  <Save className="h-4 w-4 mr-2" />Save Changes
                 </Button>
               </div>
             </div>

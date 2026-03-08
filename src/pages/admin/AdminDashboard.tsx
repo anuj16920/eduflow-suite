@@ -1,5 +1,6 @@
 import { Users, GraduationCap, CreditCard, AlertCircle, TrendingUp, Calendar, Clock } from "lucide-react";
 import { StatsCard, SimpleCard } from "@/components/dashboard/StatsCard";
+import { KPIStudentCard } from "@/components/dashboard/KPIStudentCard";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 

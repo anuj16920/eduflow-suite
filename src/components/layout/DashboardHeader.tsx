@@ -1,8 +1,8 @@
-import { Bell, Search, Menu, Plus } from "lucide-react";
+import { Bell, Menu, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { Input } from "@/components/ui/input";
 import { PortalSwitcher } from "./PortalSwitcher";
+import { GlobalSearchBar } from "@/components/search";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,10 +12,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 
 interface DashboardHeaderProps {
   sidebarCollapsed: boolean;
@@ -50,14 +48,8 @@ export function DashboardHeader({ sidebarCollapsed, onMenuClick, user }: Dashboa
             <Menu className="h-5 w-5" />
           </Button>
 
-          {/* Search */}
-          <div className="hidden md:flex relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search anything..."
-              className="w-72 pl-9 bg-muted/50 border-0 focus-visible:ring-1"
-            />
-          </div>
+          {/* Global Search */}
+          <GlobalSearchBar />
         </div>
 
         {/* Right Section */}

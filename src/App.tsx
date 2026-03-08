@@ -35,6 +35,7 @@ import CafeteriaManagement from "./pages/admin/CafeteriaManagement";
 import ELearningManagement from "./pages/admin/ELearningManagement";
 import AttendanceManagement from "./pages/admin/AttendanceManagement";
 import StudentProfilePage from "./pages/admin/StudentProfilePage";
+import AddStudentPage from "./pages/admin/AddStudentPage";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";

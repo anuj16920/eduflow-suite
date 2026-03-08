@@ -29,6 +29,11 @@ import FeesManagement from "./pages/admin/FeesManagement";
 import CommunicationCenter from "./pages/admin/CommunicationCenter";
 import ReportsAnalytics from "./pages/admin/ReportsAnalytics";
 import SettingsPage from "./pages/admin/SettingsPage";
+import HostelManagement from "./pages/admin/HostelManagement";
+import TransportManagement from "./pages/admin/TransportManagement";
+import CafeteriaManagement from "./pages/admin/CafeteriaManagement";
+import ELearningManagement from "./pages/admin/ELearningManagement";
+import AttendanceManagement from "./pages/admin/AttendanceManagement";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
@@ -104,10 +109,21 @@ const App = () => (
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/admin/teachers" element={<TeachersManagement />} />
                 <Route path="/admin/students" element={<StudentsManagement />} />
+                <Route path="/admin/students/admissions" element={<StudentsManagement />} />
+                <Route path="/admin/students/promotions" element={<StudentsManagement />} />
                 <Route path="/admin/parents" element={<ParentsManagement />} />
                 <Route path="/admin/academics" element={<AcademicsManagement />} />
+                <Route path="/admin/academics/timetable" element={<AcademicsManagement />} />
+                <Route path="/admin/academics/subjects" element={<AcademicsManagement />} />
+                <Route path="/admin/academics/exams" element={<AcademicsManagement />} />
                 <Route path="/admin/fees" element={<FeesManagement />} />
+                <Route path="/admin/hostel" element={<HostelManagement />} />
+                <Route path="/admin/transport" element={<TransportManagement />} />
+                <Route path="/admin/cafeteria" element={<CafeteriaManagement />} />
                 <Route path="/admin/communication" element={<CommunicationCenter />} />
+                <Route path="/admin/homework" element={<AcademicsManagement />} />
+                <Route path="/admin/elearning" element={<ELearningManagement />} />
+                <Route path="/admin/attendance" element={<AttendanceManagement />} />
                 <Route path="/admin/reports" element={<ReportsAnalytics />} />
                 <Route path="/admin/settings" element={<SettingsPage />} />
               </Route>

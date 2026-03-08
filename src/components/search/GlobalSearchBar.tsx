@@ -270,7 +270,7 @@ export function GlobalSearchBar() {
               </div>
 
               {/* Category pills */}
-              <div className="flex items-center gap-1.5 px-4 py-2 border-b border-border/20 overflow-x-auto scrollbar-none">
+              <div className="flex items-center gap-1.5 px-4 py-2 border-b border-border/20 overflow-x-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 {(["all", "student", "teacher", "class", "subject", "announcement", "exam", "homework"] as const).map((cat) => (
                   <button
                     key={cat}

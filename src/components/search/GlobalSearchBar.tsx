@@ -239,11 +239,11 @@ export function GlobalSearchBar() {
               onClick={() => setOpen(false)}
             />
             <motion.div
-              initial={{ opacity: 0, y: -8, scale: 0.98 }}
+              initial={{ opacity: 0, y: -12, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -8, scale: 0.98 }}
+              exit={{ opacity: 0, y: -12, scale: 0.97 }}
               transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
-              className="fixed inset-x-4 top-20 md:absolute md:inset-x-auto md:top-full md:mt-2 md:w-[560px] lg:w-[640px] md:right-0 md:left-auto z-50 rounded-2xl bg-popover/95 backdrop-blur-xl shadow-2xl shadow-primary/5 border border-border/40 overflow-hidden"
+              className="fixed left-1/2 -translate-x-1/2 top-20 w-[calc(100%-2rem)] max-w-[640px] z-50 rounded-2xl bg-popover/95 backdrop-blur-xl shadow-2xl shadow-primary/5 border border-border/40 overflow-hidden"
             >
               {/* Search input */}
               <div className="flex items-center gap-3 px-4 py-3 border-b border-border/30">

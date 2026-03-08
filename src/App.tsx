@@ -157,6 +157,7 @@ const App = () => (
                 <Route path="/admin/reports" element={<ReportsAnalytics />} />
                 <Route path="/admin/reports/report-card" element={<StudentReportCardPage />} />
                 <Route path="/admin/settings" element={<SettingsPage />} />
+                <Route path="/admin/settings/roles" element={<RolesPermissionsPage />} />
               </Route>
 
               {/* Teacher Routes */}

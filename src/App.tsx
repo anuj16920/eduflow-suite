@@ -2,8 +2,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/hooks/use-theme";
+import { AuthProvider, useAuth } from "@/hooks/useAuth";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 // Public Pages
 import { PublicLayout } from "@/components/layout/PublicLayout";
@@ -12,6 +14,7 @@ import FeaturesPage from "./pages/FeaturesPage";
 import PricingPage from "./pages/PricingPage";
 import ContactPage from "./pages/ContactPage";
 import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
 
 // Dashboard Layouts
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
@@ -36,6 +39,15 @@ import TeacherHomework from "./pages/teacher/TeacherHomework";
 import TeacherMarks from "./pages/teacher/TeacherMarks";
 import TeacherMessages from "./pages/teacher/TeacherMessages";
 
+// Student Pages
+import StudentDashboard from "./pages/student/StudentDashboard";
+import StudentTimetable from "./pages/student/StudentTimetable";
+import StudentAttendance from "./pages/student/StudentAttendance";
+import StudentHomework from "./pages/student/StudentHomework";
+import StudentResults from "./pages/student/StudentResults";
+import StudentFees from "./pages/student/StudentFees";
+import StudentProfile from "./pages/student/StudentProfile";
+
 // Parent Pages
 import ParentDashboard from "./pages/parent/ParentDashboard";
 import ParentStudentProfile from "./pages/parent/ParentStudentProfile";
@@ -49,9 +61,23 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const adminUser = { name: "Admin User", email: "admin@school.edu", role: "admin" };
-const teacherUser = { name: "Dr. Rajesh Kumar", email: "rajesh@school.edu", role: "teacher" };
-const parentUser = { name: "Mr. Rakesh Sharma", email: "rakesh@school.edu", role: "parent" };
+function AuthRedirect() {
+  const { user, role, loading } = useAuth();
+  if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="h-12 w-12 rounded-full border-4 border-primary border-t-transparent animate-spin" /></div>;
+  if (!user) return <Navigate to="/login" replace />;
+  return <Navigate to={`/${role || "student"}`} replace />;
+}
+
+function DashboardWithAuth({ role, children }: { role: string; children?: React.ReactNode }) {
+  const { profile } = useAuth();
+  const user = {
+    name: profile?.full_name || "User",
+    email: profile?.email || "",
+    role: profile?.role || role,
+    avatar: profile?.avatar_url || undefined,
+  };
+  return <DashboardLayout role={role as any} user={user} />;
+}
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -60,53 +86,68 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            {/* Public Routes */}
-            <Route element={<PublicLayout />}>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/features" element={<FeaturesPage />} />
-              <Route path="/pricing" element={<PricingPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-            </Route>
-            <Route path="/login" element={<LoginPage />} />
+          <AuthProvider>
+            <Routes>
+              {/* Public Routes */}
+              <Route element={<PublicLayout />}>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/features" element={<FeaturesPage />} />
+                <Route path="/pricing" element={<PricingPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+              </Route>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/dashboard" element={<AuthRedirect />} />
 
-            {/* Admin Routes */}
-            <Route element={<DashboardLayout role="admin" user={adminUser} />}>
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/teachers" element={<TeachersManagement />} />
-              <Route path="/admin/students" element={<StudentsManagement />} />
-              <Route path="/admin/parents" element={<ParentsManagement />} />
-              <Route path="/admin/academics" element={<AcademicsManagement />} />
-              <Route path="/admin/fees" element={<FeesManagement />} />
-              <Route path="/admin/communication" element={<CommunicationCenter />} />
-              <Route path="/admin/reports" element={<ReportsAnalytics />} />
-              <Route path="/admin/settings" element={<SettingsPage />} />
-            </Route>
+              {/* Admin Routes */}
+              <Route element={<ProtectedRoute allowedRoles={["admin"]}><DashboardWithAuth role="admin" /></ProtectedRoute>}>
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin/teachers" element={<TeachersManagement />} />
+                <Route path="/admin/students" element={<StudentsManagement />} />
+                <Route path="/admin/parents" element={<ParentsManagement />} />
+                <Route path="/admin/academics" element={<AcademicsManagement />} />
+                <Route path="/admin/fees" element={<FeesManagement />} />
+                <Route path="/admin/communication" element={<CommunicationCenter />} />
+                <Route path="/admin/reports" element={<ReportsAnalytics />} />
+                <Route path="/admin/settings" element={<SettingsPage />} />
+              </Route>
 
-            {/* Teacher Routes */}
-            <Route element={<DashboardLayout role="teacher" user={teacherUser} />}>
-              <Route path="/teacher" element={<TeacherDashboard />} />
-              <Route path="/teacher/profile" element={<TeacherProfile />} />
-              <Route path="/teacher/classes" element={<TeacherClasses />} />
-              <Route path="/teacher/attendance" element={<TeacherAttendance />} />
-              <Route path="/teacher/homework" element={<TeacherHomework />} />
-              <Route path="/teacher/marks" element={<TeacherMarks />} />
-              <Route path="/teacher/messages" element={<TeacherMessages />} />
-            </Route>
+              {/* Teacher Routes */}
+              <Route element={<ProtectedRoute allowedRoles={["teacher"]}><DashboardWithAuth role="teacher" /></ProtectedRoute>}>
+                <Route path="/teacher" element={<TeacherDashboard />} />
+                <Route path="/teacher/profile" element={<TeacherProfile />} />
+                <Route path="/teacher/classes" element={<TeacherClasses />} />
+                <Route path="/teacher/attendance" element={<TeacherAttendance />} />
+                <Route path="/teacher/homework" element={<TeacherHomework />} />
+                <Route path="/teacher/marks" element={<TeacherMarks />} />
+                <Route path="/teacher/messages" element={<TeacherMessages />} />
+              </Route>
 
-            {/* Parent Routes */}
-            <Route element={<DashboardLayout role="parent" user={parentUser} />}>
-              <Route path="/parent" element={<ParentDashboard />} />
-              <Route path="/parent/student" element={<ParentStudentProfile />} />
-              <Route path="/parent/attendance" element={<ParentAttendance />} />
-              <Route path="/parent/homework" element={<ParentHomework />} />
-              <Route path="/parent/results" element={<ParentResults />} />
-              <Route path="/parent/fees" element={<ParentFees />} />
-              <Route path="/parent/messages" element={<ParentMessages />} />
-            </Route>
+              {/* Student Routes */}
+              <Route element={<ProtectedRoute allowedRoles={["student"]}><DashboardWithAuth role="student" /></ProtectedRoute>}>
+                <Route path="/student" element={<StudentDashboard />} />
+                <Route path="/student/timetable" element={<StudentTimetable />} />
+                <Route path="/student/attendance" element={<StudentAttendance />} />
+                <Route path="/student/homework" element={<StudentHomework />} />
+                <Route path="/student/results" element={<StudentResults />} />
+                <Route path="/student/fees" element={<StudentFees />} />
+                <Route path="/student/profile" element={<StudentProfile />} />
+              </Route>
 
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+              {/* Parent Routes */}
+              <Route element={<ProtectedRoute allowedRoles={["parent"]}><DashboardWithAuth role="parent" /></ProtectedRoute>}>
+                <Route path="/parent" element={<ParentDashboard />} />
+                <Route path="/parent/student" element={<ParentStudentProfile />} />
+                <Route path="/parent/attendance" element={<ParentAttendance />} />
+                <Route path="/parent/homework" element={<ParentHomework />} />
+                <Route path="/parent/results" element={<ParentResults />} />
+                <Route path="/parent/fees" element={<ParentFees />} />
+                <Route path="/parent/messages" element={<ParentMessages />} />
+              </Route>
+
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
     </ThemeProvider>

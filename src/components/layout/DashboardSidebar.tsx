@@ -1,5 +1,6 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
 import {
   LayoutDashboard,
   Users,
@@ -19,7 +20,7 @@ import { Button } from "@/components/ui/button";
 interface DashboardSidebarProps {
   collapsed: boolean;
   onToggle: () => void;
-  role: "admin" | "teacher" | "parent";
+  role: "admin" | "teacher" | "student" | "parent";
 }
 
 const adminLinks = [
@@ -54,15 +55,33 @@ const parentLinks = [
   { label: "Messages", href: "/parent/messages", icon: MessageSquare },
 ];
 
+const studentLinks = [
+  { label: "Dashboard", href: "/student", icon: LayoutDashboard },
+  { label: "Timetable", href: "/student/timetable", icon: BookOpen },
+  { label: "Attendance", href: "/student/attendance", icon: Users },
+  { label: "Homework", href: "/student/homework", icon: GraduationCap },
+  { label: "Results", href: "/student/results", icon: BarChart3 },
+  { label: "Fees", href: "/student/fees", icon: CreditCard },
+  { label: "Profile", href: "/student/profile", icon: UserCircle },
+];
+
 const roleLinks = {
   admin: adminLinks,
   teacher: teacherLinks,
   parent: parentLinks,
+  student: studentLinks,
 };
 
 export function DashboardSidebar({ collapsed, onToggle, role }: DashboardSidebarProps) {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { signOut } = useAuth();
   const links = roleLinks[role];
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate("/login");
+  };
 
   return (
     <aside
@@ -127,16 +146,16 @@ export function DashboardSidebar({ collapsed, onToggle, role }: DashboardSidebar
 
       {/* Logout */}
       <div className="border-t border-sidebar-border p-3">
-        <Link
-          to="/login"
+        <button
+          onClick={handleLogout}
           className={cn(
-            "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors",
+            "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors w-full",
             collapsed && "justify-center px-2"
           )}
         >
           <LogOut className="h-5 w-5 flex-shrink-0" />
           {!collapsed && <span>Logout</span>}
-        </Link>
+        </button>
       </div>
     </aside>
   );

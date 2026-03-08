@@ -61,8 +61,8 @@ const adminLinks: NavItem[] = [
     icon: GraduationCap,
     children: [
       { label: "All Students", href: "/admin/students" },
-      { label: "Admissions", href: "/admin/students?tab=admissions" },
-      { label: "Promotions", href: "/admin/students?tab=promotions" },
+      { label: "Admissions", href: "/admin/students/admissions" },
+      { label: "Promotions", href: "/admin/students/promotions" },
     ],
   },
   {
@@ -78,15 +78,15 @@ const adminLinks: NavItem[] = [
     icon: BookOpen,
     children: [
       { label: "Class Groups", href: "/admin/academics" },
-      { label: "Timetable", href: "/admin/academics?tab=timetable" },
-      { label: "Subjects", href: "/admin/academics?tab=subjects" },
+      { label: "Timetable", href: "/admin/academics/timetable" },
+      { label: "Subjects", href: "/admin/academics/subjects" },
     ],
   },
   {
     label: "Examinations",
     icon: ClipboardList,
     children: [
-      { label: "Exams", href: "/admin/academics?tab=exams" },
+      { label: "Exams", href: "/admin/academics/exams" },
       { label: "Report Cards", href: "/admin/reports" },
     ],
   },

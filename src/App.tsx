@@ -46,6 +46,7 @@ import ELearningViewerPage from "./pages/admin/ELearningViewerPage";
 import AnnouncementsBoardPage from "./pages/admin/AnnouncementsBoardPage";
 import PTMSchedulerPage from "./pages/admin/PTMSchedulerPage";
 import TimetableViewerPage from "./pages/admin/TimetableViewerPage";
+import TransportRouteViewerPage from "./pages/admin/TransportRouteViewerPage";
 
 // Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
